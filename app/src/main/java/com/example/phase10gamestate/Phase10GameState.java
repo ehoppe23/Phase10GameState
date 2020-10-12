@@ -1,4 +1,5 @@
 //Need to add header comment to every java file
+//Did we remember a external citation?
 package com.example.phase10gamestate;
 
 import java.util.ArrayList;
