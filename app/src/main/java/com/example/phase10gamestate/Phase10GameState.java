@@ -13,7 +13,7 @@ public class Phase10GameState {
     private ArrayList<Card> player2Hand;
     private ArrayList<Card> player1PhaseContent;
     private ArrayList<Card> player2PhaseContent;
-    private ArrayList<Card> drawPile;
+    private ArrayList<Card> drawPile; //108 cards before dealing
     private Stack<Card> discardPile;
     private boolean player1HasPhased;
     private boolean player2HasPhased;
@@ -21,9 +21,91 @@ public class Phase10GameState {
     private int goesFirst; //Player Id of who goes first, alternates each round
     private int player1Score; //Lower scores are better
     private int player2Score;
-    private int player1Phase;
+    private int player1Phase; //Standard is 10 phases, optional: set different phases for game
     private int player2Phase;
     private int hasGoneOut; //set to zero until a player goes out, then set to player Id
+
+    //setters
+    public void setTurnId(int turnId) {this.turnId = turnId; }
+    public void setPlayerHasDrawn(boolean playerHasDrawn) {this.playerHasDrawn = playerHasDrawn; }
+    public void setGoesFirst(int goesFirst) { this.goesFirst = goesFirst; }
+    public void setHasGoneOut(int hasGoneOut) {this.hasGoneOut = hasGoneOut; }
+    public void setDiscardPile(Stack<Card> discardPile) {this.discardPile = discardPile; }
+    public void setDrawPile(ArrayList<Card> drawPile) {this.drawPile = drawPile; }
+    public void setPlayer1HasPhased(boolean player1HasPhased) {this.player1HasPhased = player1HasPhased; }
+    public void setPlayer2HasPhased(boolean player2HasPhased) {this.player2HasPhased = player2HasPhased; }
+    public void setPlayer1PhaseContent(ArrayList<Card> player1PhaseContent) {this.player1PhaseContent = player1PhaseContent; }
+    public void setPlayer2PhaseContent(ArrayList<Card> player2PhaseContent) {this.player2PhaseContent = player2PhaseContent; }
+    public void setPlayer1Phase(int player1Phase) {this.player1Phase = player1Phase; }
+    public void setPlayer2Phase(int player2Phase) {this.player2Phase = player2Phase; }
+    public void setPlayer1Score(int player1Score) {this.player1Score = player1Score; }
+    public void setPlayer2Score(int player2Score){this.player2Score= player2Score; }
+    public void setPlayer1Hand(ArrayList<Card> player1Hand) {this.player1Hand = player1Hand; }
+    public void setPlayer2Hand(ArrayList<Card> player2Hand){this.player2Hand = player2Hand; }
+
+    //Getters
+    public boolean getPlayerHasDrawn() {return playerHasDrawn; }
+    public int getHasGoneOut() {return hasGoneOut; }
+    public int getTurnId() {return turnId; }
+    public Stack<Card> getDiscardPile() { return discardPile; }
+    public int getGoesFirst(){ return goesFirst; }
+    public ArrayList<Card> getDrawPile() { return drawPile; }
+    public int getPlayer1Score(){return player1Score; }
+    public int getPlayer2Score(){ return player2Score; }
+    public int getPlayer1Phase(){return player1Phase; }
+    public int getPlayer2Phase(){return player2Phase; }
+    public ArrayList<Card> getPlayer1Hand() {return player1Hand; }
+    public ArrayList<Card> getPlayer2Hand() {return player2Hand; }
+    public ArrayList<Card> getPlayer1PhaseContent() {return player1PhaseContent; }
+    public ArrayList<Card> getPlayer2PhaseContent() {return player2PhaseContent; }
+    public boolean getPlayer1HasPhased() {return player1HasPhased; }
+    public boolean getPlayer2HasPhased() {return player2HasPhased; }
+
+    /**
+     * Constructor - Initializes variables with 0/null values
+     */
+    public Phase10GameState(){
+        turnId=0;
+        hasGoneOut=0;
+        goesFirst=0;
+        playerHasDrawn= false;
+        player1HasPhased=false;
+        player2HasPhased=false;
+        player1Score=0;
+        player2Score=0;
+        player1Phase=0;
+        player2Phase=0;
+        player1Hand=null;
+        player2Hand=null;
+        player1PhaseContent=null;
+        player2PhaseContent=null;
+        discardPile=null;
+        drawPile=null;
+    }
+
+    /**
+     * Copy constructor - initializes with given values
+     */
+    public Phase10GameState(Phase10GameState PhaseGS){
+        this.setTurnId(PhaseGS.getTurnId());
+        this.setHasGoneOut(PhaseGS.getHasGoneOut());
+        this.setGoesFirst(PhaseGS.getGoesFirst());
+        this.setDiscardPile(PhaseGS.getDiscardPile());
+        this.setDrawPile(PhaseGS.getDrawPile());
+        this.setPlayerHasDrawn(PhaseGS.getPlayerHasDrawn());
+        this.setPlayer1Hand(PhaseGS.getPlayer1Hand());
+        this.setPlayer2Hand(PhaseGS.getPlayer2Hand());
+        this.setPlayer1HasPhased(PhaseGS.getPlayer1HasPhased());
+        this.setPlayer2HasPhased(PhaseGS.getPlayer2HasPhased());
+        this.setPlayer1Score(PhaseGS.getPlayer1Score());
+        this.setPlayer2Score(PhaseGS.getPlayer2Score());
+        this.setPlayer1Phase(PhaseGS.getPlayer1Phase());
+        this.setPlayer2Phase(PhaseGS.getPlayer2Phase());
+        this.setPlayer1PhaseContent(PhaseGS.getPlayer1PhaseContent());
+        this.setPlayer2PhaseContent(PhaseGS.getPlayer2PhaseContent());
+
+    }
+
 
     /**
      * attempts to draw a face down card from the draw pile and add it to the player's hand
@@ -35,7 +117,7 @@ public class Phase10GameState {
      */
     public boolean drawFaceDown(int playerId){
 
-        if(playerId != this.turnId ||this.drawPile.size() == 0 || this.hasGoneOut == playerId || this.playerHasDrawn) return false;
+        if(playerId != this.turnId ||this.drawPile.size() <= 0 || this.hasGoneOut == playerId || this.playerHasDrawn) return false;
 
         Card drawn = this.drawPile.remove(0); //Remove top card from draw pile
         this.playerHasDrawn = true;
@@ -63,7 +145,7 @@ public class Phase10GameState {
      */
     public boolean drawFaceUp(int playerId){
 
-        if(playerId != this.turnId ||this.discardPile.size() == 0 || this.hasGoneOut == playerId || this.playerHasDrawn) return false;
+        if(playerId != this.turnId ||this.discardPile.size() <= 0 || this.hasGoneOut == playerId || this.playerHasDrawn) return false;
 
         Card drawn = this.discardPile.pop(); //remove top card from discard
         this.playerHasDrawn = true;
