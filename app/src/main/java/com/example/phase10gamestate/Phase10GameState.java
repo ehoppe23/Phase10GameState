@@ -44,22 +44,22 @@ public class Phase10GameState {
     public void setPlayer2Hand(ArrayList<Card> player2Hand){this.player2Hand = player2Hand; }
 
     //Getters
-    public boolean getPlayerHasDrawn() {return playerHasDrawn; }
-    public int getHasGoneOut() {return hasGoneOut; }
-    public int getTurnId() {return turnId; }
-    public Stack<Card> getDiscardPile() { return discardPile; }
-    public int getGoesFirst(){ return goesFirst; }
-    public ArrayList<Card> getDrawPile() { return drawPile; }
-    public int getPlayer1Score(){return player1Score; }
-    public int getPlayer2Score(){ return player2Score; }
-    public int getPlayer1Phase(){return player1Phase; }
-    public int getPlayer2Phase(){return player2Phase; }
-    public ArrayList<Card> getPlayer1Hand() {return player1Hand; }
-    public ArrayList<Card> getPlayer2Hand() {return player2Hand; }
-    public ArrayList<Card> getPlayer1PhaseContent() {return player1PhaseContent; }
-    public ArrayList<Card> getPlayer2PhaseContent() {return player2PhaseContent; }
-    public boolean getPlayer1HasPhased() {return player1HasPhased; }
-    public boolean getPlayer2HasPhased() {return player2HasPhased; }
+    public boolean getPlayerHasDrawn() {return this.playerHasDrawn; }
+    public int getHasGoneOut() {return this.hasGoneOut; }
+    public int getTurnId() {return this.turnId; }
+    public Stack<Card> getDiscardPile() { return this.discardPile; }
+    public int getGoesFirst(){ return this.goesFirst; }
+    public ArrayList<Card> getDrawPile() { return this.drawPile; }
+    public int getPlayer1Score(){return this.player1Score; }
+    public int getPlayer2Score(){ return this.player2Score; }
+    public int getPlayer1Phase(){return this.player1Phase; }
+    public int getPlayer2Phase(){return this.player2Phase; }
+    public ArrayList<Card> getPlayer1Hand() {return this.player1Hand; }
+    public ArrayList<Card> getPlayer2Hand() {return this.player2Hand; }
+    public ArrayList<Card> getPlayer1PhaseContent() {return this.player1PhaseContent; }
+    public ArrayList<Card> getPlayer2PhaseContent() {return this.player2PhaseContent; }
+    public boolean getPlayer1HasPhased() {return this.player1HasPhased; }
+    public boolean getPlayer2HasPhased() {return this.player2HasPhased; }
 
     /**
      * Constructor - Initializes variables with 0/null values
@@ -103,9 +103,7 @@ public class Phase10GameState {
         this.setPlayer2Phase(PhaseGS.getPlayer2Phase());
         this.setPlayer1PhaseContent(PhaseGS.getPlayer1PhaseContent());
         this.setPlayer2PhaseContent(PhaseGS.getPlayer2PhaseContent());
-
     }
-
 
     /**
      * attempts to draw a face down card from the draw pile and add it to the player's hand
