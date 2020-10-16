@@ -25,7 +25,7 @@ public class Phase10GameState {
     private int player2Phase;
     private int hasGoneOut; //set to zero until a player goes out, then set to player Id
 
-    //setters
+    //Setters
     public void setTurnId(int turnId) {this.turnId = turnId; }
     public void setPlayerHasDrawn(boolean playerHasDrawn) {this.playerHasDrawn = playerHasDrawn; }
     public void setGoesFirst(int goesFirst) { this.goesFirst = goesFirst; }
