@@ -37,10 +37,11 @@ public class MainActivity extends AppCompatActivity {
         firstInstance.drawFaceDown(firstInstance.getTurnId());
         editText.append("Player " + firstInstance.getTurnId() + " has drawn from the draw pile.\n"
             + "They drew a " + drawnCard.toString() + ".");
-        //print stuff
 
-        firstInstance.drawFaceUp(firstInstance.getTurnId());
-        //print stuff
+        drawnCard = firstInstance.getDiscardPile().get(0);
+        firstInstance.drawFaceDown(firstInstance.getTurnId());
+        editText.append("Player " + firstInstance.getTurnId() + " has drawn from the discard pile.\n"
+                + "They drew a " + drawnCard.toString() + ".");
 
         //firstInstance.discard(firstInstance.getTurnId(), );
 
