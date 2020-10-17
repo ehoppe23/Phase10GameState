@@ -27,11 +27,21 @@ public class Card {
 
 
     public boolean isWild(){
-        if(this.number == 0 && this.color == 0) return true;
-        else return false;
+        return this.number == 0 && this.color == 0;
     }
     public boolean isSkip(){
-        if(this.number == -1 && this.color == -1) return true;
-        else return false;
+        return this.number == -1 && this.color == -1;
+    }
+
+    public String toString(){
+        if(this.isSkip()){
+            return "skip card";
+        }
+        else if(this.isWild()){
+            return "wild card";
+        }
+        else{
+            return this.getColor() + " " + this.getNumber();
+        }
     }
 }
