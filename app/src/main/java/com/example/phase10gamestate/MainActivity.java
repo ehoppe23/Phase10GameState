@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         Phase10GameState firstInstance = new Phase10GameState();
         Phase10GameState secondInstance = new Phase10GameState(firstInstance);
 
-        EditText editText = findViewById(R.id.actionText);
+        EditText editText = (EditText) findViewById(R.id.actionText);
 
         //Call all methods:
         //drawFaceDown(int playerID)
@@ -32,18 +32,18 @@ public class MainActivity extends AppCompatActivity {
         //playPhase(???)
         //hit(???)
 
-        Card drawnCard = firstInstance.getDrawPile().get(0);
+        Card drawnCard = firstInstance.getDrawPile().get(firstInstance.getDiscardPile().size()-1);
 
         firstInstance.drawFaceDown(firstInstance.getTurnId());
         editText.append("Player " + firstInstance.getTurnId() + " has drawn from the draw pile.\n"
             + "They drew a " + drawnCard.toString() + ".");
 
-        drawnCard = firstInstance.getDiscardPile().get(0);
+        drawnCard = firstInstance.getDiscardPile().lastElement();
         firstInstance.drawFaceDown(firstInstance.getTurnId());
         editText.append("Player " + firstInstance.getTurnId() + " has drawn from the discard pile.\n"
                 + "They drew a " + drawnCard.toString() + ".");
 
-        //firstInstance.discard(firstInstance.getTurnId(), );
+        firstInstance.discard(firstInstance.getTurnId(), 1);
 
 
         //firstInstance.playPhase();
