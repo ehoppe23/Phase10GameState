@@ -19,6 +19,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //end game
+    @Override
+    protected void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+        finish();
+    }
+
     public void onClick(View v) {
         Phase10GameState firstInstance = new Phase10GameState();
         Phase10GameState secondInstance = new Phase10GameState(firstInstance);
@@ -52,5 +59,7 @@ public class MainActivity extends AppCompatActivity {
         Phase10GameState thirdInstance = new Phase10GameState();
         Phase10GameState fourthInstance = new Phase10GameState(thirdInstance);
     }
+
+
 
 }
