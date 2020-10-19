@@ -20,11 +20,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //end game
-    @Override
-    protected void onCreate(Bundle savedInstanceState){
-        super.onCreate(savedInstanceState);
-        finish();
-    }
 
     public void onClick(View v) {
         Phase10GameState firstInstance = new Phase10GameState();

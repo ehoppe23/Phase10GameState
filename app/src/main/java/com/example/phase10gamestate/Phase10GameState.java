@@ -12,7 +12,7 @@ public class Phase10GameState {
     private int turnId; //1 or 2 based on id of player turn
     private ArrayList<Card> player1Hand; //Player hands start at 10 cards
     private ArrayList<Card> player2Hand;
-    private ArrayList<Card> player1PhaseContent;
+    private ArrayList<Card> player1PhaseContent; //considering having a separate class to store each phaseContent in a more manageable way
     private ArrayList<Card> player2PhaseContent;
     private ArrayList<Card> drawPile; //108 cards before dealing
     private Stack<Card> discardPile;
@@ -25,6 +25,7 @@ public class Phase10GameState {
     private int player1Phase; //Standard is 10 phases, optional: set different phases for game
     private int player2Phase;
     private int hasGoneOut; //set to zero until a player goes out, then set to player Id
+    Phase phase = new Phase();
 
     //Setters
     public void setTurnId(int turnId) {
@@ -288,177 +289,45 @@ public class Phase10GameState {
         } else return false;
     }
 
-
-    /* checks if the play can play a phase, first by seeing what phase
-    * the player is on, then my referencing two different methods that checks
-    * each card to make sure the play can hit */
-    public boolean checkPhase(Phase phase, ArrayList<Card> list1, ArrayList<Card> list2) {
-        switch (phase) {
-            case PHASE_1:
-                return checkIfPhaseOne(cardList1, cardList2);
-            case PHASE_2:
-                return checkIfPhaseTwo(cardList1, cardList2);
-            case PHASE_3:
-                return checkIfPhaseThree(cardList1, cardList2);
-            case PHASE_4:
-                return sevenInARow(cardList1);
-            case PHASE_5:
-                return eightInARow(cardList1);
-            case PHASE_6:
-                return nineInARow(cardList1);
-            case PHASE_7:
-                return checkIfPhaseSeven(cardList1, cardList2);
-            case PHASE_8:
-                return checkIfPhaseEight(cardList1);
-            case PHASE_9:
-                return checkIfPhaseNine(cardList1, cardList2);
-            case PHASE_10:
-                return checkIfPhaseTen(cardList1, cardList2);
-            default:
-                return false;
-        }
+    /**
+     *
+     * @return prints out values of all variables
+     */
+    public String toString(){
+        return "Turn ID: " +  turnId + "\nHas Gone Out:" + hasGoneOut +"\nGoes First:"+ goesFirst +"\nPlayer Has Drawn" + playerHasDrawn +
+                "\nP1 has Phased:" + player1HasPhased + "\nP2 has Phased:" + player2HasPhased + "\nP1 Score" + player1Score + "\nP2 Score" + player2Score +
+                "\nP1 Phase:"+ player1Phase + "\nP2 Phase:"+ player2Phase + "\nP1 Hand" + player1Hand.toString() + "\nP2 Hand" + player2Hand.toString() +
+                "\nP1 Phase Content:" + player1PhaseContent.toString() + "\nP2 Phase Content:" + player2PhaseContent.toString() + "\nDiscard Pile:" + discardPile.toString()+
+                "\nDraw Pile:" + drawPile;
     }
 
-    private boolean isTwin(ArrayList<Card> list) {
-        if (list.size() == 2) {
-            return checkForEqualNumbers(list);
-        }
-        return false;
-    }
 
-    private boolean isTriplet(ArrayList<Card> list) {
-        if (list.size() == 3) {
-            return checkForEqualNumbers(list);
-        }
-        return false;
-    }
-
-    private boolean isQuad(ArrayList<Card> list) {
-        if (list.size() == 4) {
-            return checkForEqualNumbers(list);
-        }
-        return false;
-    }
-
-    private boolean isQuintuple(ArrayList<Card> list) {
-        if (list.size() == 5) {
-            return checkForEqualNumbers(list);
-        }
-        return false;
-    }
-
-    private boolean fourInARow(ArrayList<Card> list) {
-
-        if (list.size() == 4) {
-            return checkIfInARow(list);
-        }
-        return false;
-    }
-
-    private boolean sevenInARow(ArrayList<Card> list) {
-        if (list.size() == 7) {
-            return checkIfInARow(list);
-        }
-        return false;
-    }
-
-    private boolean eightInARow(ArrayList<Card> list) {
-        if (list.size() == 8) {
-            return checkIfInARow(list);
-        }
-        return false;
-    }
-
-    private boolean nineInARow(ArrayList<Card> list) {
-        if (list.size() == 9) {
-            return checkIfInARow(list);
-        }
-        return false;
-    }
-
-    private boolean checkIfPhaseOne(ArrayList<Card> list, ArrayList<Card> list2) {
-        if (isTriplet(list) && isTriplet(list2)) {
+    public boolean playPhase(int playerNum) {
+        //checks if valid, player num == playerId, needs to have not phased
+        if(playerNum == 1){
+            if(phase.checkPhase(player1Phase, player1Hand)) player1HasPhased = true;
+            //-> move cards out of player hand into phaseContent variable
             return true;
         }
-        return false;
-    }
-
-    private boolean checkIfPhaseTwo(ArrayList<Card> list, ArrayList<Card> list2) {
-        return ((isTriplet(list) && fourInARow(list2)) || (isTriplet(list2) && fourInARow(list)));
-    }
-
-    private boolean checkIfPhaseThree(ArrayList<Card> list, ArrayList<Card> list2) {
-        return ((isQuad(list) && fourInARow(list2)) || (isQuad(list2) && fourInARow(list)));
-    }
-
-    private boolean checkIfPhaseSeven(ArrayList<Card> list, ArrayList<Card> list2) {
-        if (isQuad(list) && isQuad(list2)) {
+        else if(playerNum == 2) {
+            if(phase.checkPhase(player2Phase, player2Hand)) player2HasPhased = true;
+            //-> move cards out of player hand into phaseContent variable
             return true;
         }
-        return false;
+        else return false;
     }
 
-    private boolean checkIfPhaseEight(List<Card> list) {
-        if (list.size() == 7) {
-            return checkSameColors((ArrayList<Card>) list);
-        }
-        return false;
-    }
+    public boolean hitPlayer(int playerNum, Card selectedCard, int hitOnPlayer) {
+        //validity checks
+        //checks if player num == same as id
+        //checks if player has phased (if not return false)
+        //if hitOnplayer != playerNum -> check if other player has phased
+        //else, if hitOnPlayer != player num, and != other player number return false
 
-    public boolean checkSameColors(ArrayList<Card> list) {
-        int col = -10;
-        for (Card c : list) {
-            if (col == -10) {
-                col = c.getColor();
-            } else if (c.getColor() != col) {
-                return false;
-            }
-            return true;
-        }
-        return false;
-    }
-
-    // allows player to hit
-    private boolean checkIfPhaseNine(ArrayList<Card> list, ArrayList<Card> list2) {
-        return ((isQuintuple(list) && isTwin(list2)) || (isQuintuple(list2) && isTwin(list)));
-    }
-
-    private boolean checkIfPhaseTen(ArrayList<Card> list, ArrayList<Card> list2) {
-        return ((isQuintuple(list) && isTriplet(list2)) || (isQuintuple(list2) && isTriplet(list)));
-    }
-
-    public boolean checkForEqualNumbers(List<Card> list) {
-        int number = 0;
-        for (Card c : list) {
-            if (number == 0) {
-                number = c.getNumber();
-            } else if (c.getNumber() != number) {
-                return false;
-            }
-            return true;
-        }
-        return false;
-    }
-
-    public boolean checkIfInARow(List<Card> list) {
-        int number = 0;
-        boolean firstNumber = false;
-
-        for (Card c : list) {
-            if (!firstNumber) {
-                if (number < (c.getNumber())){
-                    number = (c.getNumber());
-                    firstNumber = true;
-                }
-            } else {
-                if ((number + 1) == (c.getNumber())){
-                    number = (c.getNumber());
-                } else {
-                    return false;
-                }
-            }
-            return true;
-        }
+        //know what the phase is that the player being hit on is in, take their phase content, and see if this selectedCard is a valid addition
+        //could do this in phase class
+        // -> player phase, and phase content, and added card (checkHitValid method)
+        // -> if the move was valid, take card out of player hand, and add it to the appropriate phaseContent variable
         return false;
     }
 }
