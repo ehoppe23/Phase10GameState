@@ -191,9 +191,9 @@ public class Phase10GameState {
          Date: 18 Oct 2020
          Problem: Wondering if there was a way to shuffle an array list
          Resource:
-         https://www.roytuts.com/how-to-shuffle-an-arraylist-using-java
-         /#:~:text=%20How%20to%20shuffle%20an%20ArrayList%20using%20Java,
-         test%20the%20program.%20Remember%20on%20each...%20More%20
+             https://www.roytuts.com/how-to-shuffle-an-arraylist-using-java
+             /#:~:text=%20How%20to%20shuffle%20an%20ArrayList%20using%20Java,
+             test%20the%20program.%20Remember%20on%20each...%20More%20
          Solution: I used the suggested method
          */
         Collections.shuffle(drawPile);//shuffle draw pile
@@ -320,6 +320,7 @@ public class Phase10GameState {
     }
 
     /**
+     *
      * @return prints out values of all variables
      */
     public String toString() {
@@ -336,16 +337,16 @@ public class Phase10GameState {
     public boolean playPhase(int playerNum) {
         //checks if valid, player num == playerId, needs to have not phased
         if (playerNum == 1) {
-            if (phase.checkPhase(player1Phase, player1Hand) == true && player1HasPhased == true) ;
-            for (Card c : player1Hand) {
+            if (phase.checkPhase(player1Phase, player1Hand) && player1HasPhased);
+            for(Card c: player1Hand) {
                 player1Hand.remove(c);
                 player1PhaseContent.add(c);
                 //-> move cards out of player hand into phaseContent variable
                 return true;
             }
         } else if (playerNum == 2) {
-            if ((phase.checkPhase(player2Phase, player2Hand) && player2HasPhased) == true) ;
-            for (Card c : player2Hand) {
+            if ((phase.checkPhase(player2Phase, player2Hand) && player2HasPhased));
+            for(Card c: player2Hand) {
                 player2Hand.remove(c);
                 player2PhaseContent.add(c);
                 //-> move cards out of player hand into phaseContent variable
