@@ -118,10 +118,7 @@ public class Phase {
     }
 
     private boolean checkIfPhaseOne(ArrayList<Card> list) {
-        if (isTriplet(list) ) {
-            return true;
-        }
-        return false;
+        return isTriplet(list);
     }
 
     private boolean checkIfPhaseTwo(ArrayList<Card> list) {
@@ -133,10 +130,7 @@ public class Phase {
     }
 
     private boolean checkIfPhaseSeven(ArrayList<Card> list) {
-        if (isQuad(list) ) {
-            return true;
-        }
-        return false;
+        return isQuad(list);
     }
 
     private boolean checkIfPhaseEight(List<Card> list) {
@@ -151,9 +145,7 @@ public class Phase {
         for (Card c : list) {
             if (col == -10) {
                 col = c.getColor();
-            } else if (c.getColor() != col) {
-                return false;
-            }
+            } else return c.getColor() == col;
             return true;
         }
         return false;
