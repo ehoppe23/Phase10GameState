@@ -56,8 +56,24 @@ public class MainActivity extends AppCompatActivity {
         editText.append("Player "  + firstInstance.getTurnId() + " discarded a "
                 + drawnCard.toString() + ".\n\n"); //print info about discard method call
 
-        //firstInstance.playPhase(firstInstance.getTurnId());// call method to play a phase
-        //firstInstance.hit(); //call method to hit another player
+
+        if(firstInstance.getTurnId() == 0){ //find discarded card
+            drawnCard = firstInstance.getPlayer1Hand().get(4);
+        }
+        else if(firstInstance.getTurnId() == 1){
+            drawnCard = firstInstance.getPlayer2Hand().get(4);
+        }
+        firstInstance.playPhase(firstInstance.getTurnId());// call method to play a phase
+        editText.append("Player " + firstInstance.getTurnId() + " played a phase!\n\n");
+
+        if(firstInstance.getTurnId() == 0){ //find card to use for hit
+            drawnCard = firstInstance.getPlayer1Hand().get(4);
+        }
+        else if(firstInstance.getTurnId() == 1){
+            drawnCard = firstInstance.getPlayer2Hand().get(4);
+        }
+        firstInstance.hitPlayer(firstInstance.getTurnId(), drawnCard, firstInstance.getTurnId()); //call method to hit another player
+        editText.append("Player " + firstInstance.getTurnId() + " has a hit player " + firstInstance.getTurnId() + "!\n\n");
 
         Phase10GameState thirdInstance = new Phase10GameState(); //create third instance
         Phase10GameState fourthInstance = new Phase10GameState(thirdInstance); //copy third instance
