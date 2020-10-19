@@ -23,28 +23,58 @@ public class Phase {
     /* checks if the play can play a phase, first by seeing what phase
      * the player is on, then my referencing two different methods that checks
      * each card to make sure the play can hit */
-    public boolean checkPhase(int playerPhase, ArrayList<Card> phaseContent) {
+    public boolean checkPhase(int playerPhase, ArrayList<Card> phaseContent, int playerNum) {
         switch (playerPhase) {
             case 1:
-                return checkIfPhaseOne(phaseContent);
+                if(checkIfPhaseOne(phaseContent)) {
+                    checkRunSetColor(playerNum, phaseContent);
+                    return true;
+                }
             case 2:
-                return checkIfPhaseTwo(phaseContent);
+                if(checkIfPhaseTwo(phaseContent)) {
+                    checkRunSetColor(playerNum, phaseContent);
+                    return true;
+                }
             case 3:
-                return checkIfPhaseThree(phaseContent);
+                if(checkIfPhaseThree(phaseContent)) {
+                    checkRunSetColor(playerNum, phaseContent);
+                    return true;
+                }
             case 4:
-                return sevenInARow(phaseContent);
+                if(sevenInARow(phaseContent)) {
+                    checkRunSetColor(playerNum, phaseContent);
+                    return true;
+                }
             case 5:
-                return eightInARow(phaseContent);
+                if(eightInARow(phaseContent)) {
+                    checkRunSetColor(playerNum, phaseContent);
+                    return true;
+                }
             case 6:
-                return nineInARow(phaseContent);
+                if(nineInARow(phaseContent)) {
+                    checkRunSetColor(playerNum, phaseContent);
+                    return true;
+                }
             case 7:
-                return checkIfPhaseSeven(phaseContent);
+                if(checkIfPhaseSeven(phaseContent)) {
+                    checkRunSetColor(playerNum, phaseContent);
+                    return true;
+                }
             case 8:
-                return checkIfPhaseEight(phaseContent);
+                if(checkIfPhaseEight(phaseContent)) {
+                    checkRunSetColor(playerNum, phaseContent);
+                    return true;
+                }
             case 9:
-                return checkIfPhaseNine(phaseContent);
+                if(checkIfPhaseNine(phaseContent)) {
+                    checkRunSetColor(playerNum, phaseContent);
+                    return true;
+                }
             case 10:
-                return checkIfPhaseTen(phaseContent);
+                if(checkIfPhaseTen(phaseContent)) {
+                    checkRunSetColor(playerNum, phaseContent);
+                    return true;
+                }
             default:
                 return false;
         }
@@ -129,7 +159,7 @@ public class Phase {
         return false;
     }
 
-    private boolean checkIfPhaseEight(List<Card> list) {
+    private boolean checkIfPhaseEight(ArrayList<Card> list) {
         if (list.size() == 7) {
             return checkSameColors((ArrayList<Card>) list);
         }
@@ -158,7 +188,7 @@ public class Phase {
         return ((isQuintuple(list) ) || ( isTriplet(list)));
     }
 
-    public boolean checkForEqualNumbers(List<Card> list) {
+    public boolean checkForEqualNumbers(ArrayList<Card> list) {
         int number = 0;
         for (Card c : list) {
             if (number == 0) {
@@ -171,7 +201,7 @@ public class Phase {
         return false;
     }
 
-    public boolean checkIfInARow(List<Card> list) {
+    public boolean checkIfInARow(ArrayList<Card> list) {
         int number = 0;
         boolean firstNumber = false;
 
@@ -196,8 +226,38 @@ public class Phase {
     //Check hit validity method
     // based on phase (switch) what are the phase components
     //which player is it, which phase is it
-    // -> okay, can the card be added to run (if theres a run)
+    // -> okay, can the card can be added to run (if theres a run)
     // if not -> can card be added to set (if thers a set)
     // if not -> can card be added to color group (if exists)
     //if not -> return false
-}
+
+    public boolean checkRunSetColor(int playerNum, ArrayList<Card> phaseContents) {
+        if( playerNum ==1) { //for player 1
+           for(Card c: phaseContents) {
+               if (checkForEqualNumbers(phaseContents) == true) {
+                   play1Run.add(c);
+               } else if (checkIfInARow(phaseContents) == true) {
+                   play1Set.add(c);
+               } else if (checkSameColors(phaseContents) == true) {
+                   play1Color.add(c);
+               } else {
+                   return false;
+               }
+           }
+            return true;
+        } else if (playerNum ==2) { //for player2
+          for(Card c: phaseContents) {
+              if (checkForEqualNumbers(phaseContents) == true) {
+                  play2Run.add(c);
+              } else if (checkIfInARow(phaseContents) == true) {
+                  play2Set.add(c);
+              } else if (checkSameColors(phaseContents) == true) {
+                  play2Color.add(c);
+              } else {
+                  return false;
+              }
+          }
+          return true;
+        } //player 2 check
+    } // checkRunSetColor
+} //Phase Class End
