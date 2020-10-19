@@ -330,4 +330,12 @@ public class Phase10GameState {
         // -> if the move was valid, take card out of player hand, and add it to the appropriate phaseContent variable
         return false;
     }
+
+    public void playPhase(Phase phase, ArrayList<Card> list1, ArrayList<Card> list2) {
+        checkPhase();
+    }
+
+    public void hitPlayer(ArrayList<Card> list1) {
+
+    }
 }
