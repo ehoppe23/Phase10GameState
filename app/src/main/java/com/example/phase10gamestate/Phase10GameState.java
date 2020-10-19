@@ -3,6 +3,7 @@
 package com.example.phase10gamestate;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 public class Phase10GameState {
@@ -399,21 +400,22 @@ public class Phase10GameState {
 
     private boolean checkIfPhaseEight(List<Card> list) {
         if (list.size() == 7) {
-            return checkSameColors(list);
+            return checkSameColors((ArrayList<Card>) list);
         }
         return false;
     }
 
     public boolean checkSameColors(ArrayList<Card> list) {
-        Card col = null;
+        int col = -10;
         for (Card c : list) {
-            if (col == null) {
+            if (col == -10) {
                 col = c.getColor();
             } else if (c.getColor() != col) {
                 return false;
             }
             return true;
         }
+        return false;
     }
 
     // allows player to hit
@@ -435,6 +437,7 @@ public class Phase10GameState {
             }
             return true;
         }
+        return false;
     }
 
     public boolean checkIfInARow(List<Card> list) {
@@ -443,12 +446,12 @@ public class Phase10GameState {
 
         for (Card c : list) {
             if (!firstNumber) {
-                if (number < (c.getNumber()) {
+                if (number < (c.getNumber())){
                     number = (c.getNumber());
                     firstNumber = true;
                 }
             } else {
-                if ((number + 1) == (c.getNumber()) {
+                if ((number + 1) == (c.getNumber())){
                     number = (c.getNumber());
                 } else {
                     return false;
@@ -456,5 +459,6 @@ public class Phase10GameState {
             }
             return true;
         }
+        return false;
     }
 }
