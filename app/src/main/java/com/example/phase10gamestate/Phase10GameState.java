@@ -3,6 +3,7 @@
 package com.example.phase10gamestate;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 
@@ -170,12 +171,35 @@ public class Phase10GameState {
         player2Score = 0;
         player1Phase = 0;
         player2Phase = 0;
-        player1Hand = null;
-        player2Hand = null;
         player1PhaseContent = null;
         player2PhaseContent = null;
-        discardPile = null;
-        drawPile = null;
+        for(int i = 1; i<=12; i++){
+            for(int j = 1; j<=4; j++){
+                Card newCard = new Card(i,j);
+                drawPile.add(newCard);
+            }
+        }
+
+        /**
+         External Citation
+         Date: 18 Oct 2020
+         Problem: Wondering if there was a way to shuffle an array list
+         Resource:
+             https://www.roytuts.com/how-to-shuffle-an-arraylist-using-java
+             /#:~:text=%20How%20to%20shuffle%20an%20ArrayList%20using%20Java,
+             test%20the%20program.%20Remember%20on%20each...%20More%20
+         Solution: I used the suggested method
+         */
+        Collections.shuffle(drawPile);
+
+        discardPile.add(drawPile.get(0));
+        drawPile.remove(0);
+        for(int i = 0; i<10; i++){
+            player1Hand.add(drawPile.get(0));
+            drawPile.remove(0);
+            player2Hand.add(drawPile.get(0));
+            drawPile.remove(0);
+        }
     }
 
     /**
