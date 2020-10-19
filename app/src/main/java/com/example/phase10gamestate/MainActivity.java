@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         editText.append("Player "  + firstInstance.getTurnId() + " discarded a "
                 + drawnCard.toString() + ".\n\n"); //print info about discard method call
 
-        firstInstance.playPhase(firstInstance.getTurnId());// call method to play a phase
+        //firstInstance.playPhase(firstInstance.getTurnId());// call method to play a phase
         //firstInstance.hit(); //call method to hit another player
 
         Phase10GameState thirdInstance = new Phase10GameState(); //create third instance
