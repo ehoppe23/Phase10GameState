@@ -3,7 +3,6 @@ package com.example.phase10gamestate;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,12 +20,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //end game
-    @Override
-    protected void Quit(Bundle savedInstanceState, View Button){
-        Log.i("button", "Exit and Save Game");
-        super.onCreate(savedInstanceState);
-        finish();
-    }
 
     public void onClick(View v) {
         Phase10GameState firstInstance = new Phase10GameState(); //create first instance
@@ -39,8 +32,6 @@ public class MainActivity extends AppCompatActivity {
         //drawFaceUp(int playerID)
         //discard(int playerID, int cardLoc)
         //playPhase(???)
-
-
         //hit(???)
 
         Card drawnCard = firstInstance.getDrawPile().get(0); //store card to use in string
