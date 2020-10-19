@@ -5,7 +5,17 @@ import java.util.List;
 
 public class Phase {
 
-    //needs variables 1-10 phase strings
+    //Phase Rules
+    private String Phase1 = "2 sets of 3 ";
+    private String Phase2 = "1 set of 3 and 1 run of 4";
+    private String Phase3 = "1 set of 4 and 1 run of 4";
+    private String Phase4 = "1 run of 7";
+    private String Phase5 = "1 run of 8";
+    private String Phase6 = "1 run of 9";
+    private String Phase7 = "2 sets of 4";
+    private String Phase8 = "7 cards of one color";
+    private String Phase9 = "1 set of 5 and 1 set of 2";
+    private String Phase10 = "1 set of 5 and 1 set of 3";
 
     //Player 1
     ArrayList<Card> play1Run;
