@@ -2,7 +2,9 @@
 //Did we remember a external citation?
 package com.example.phase10gamestate;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 public class Phase10GameState {
@@ -24,6 +26,7 @@ public class Phase10GameState {
     private int player1Phase; //Standard is 10 phases, optional: set different phases for game
     private int player2Phase;
     private int hasGoneOut; //set to zero until a player goes out, then set to player Id
+
 
     //Setters
     public void setTurnId(int turnId) {
@@ -199,6 +202,21 @@ public class Phase10GameState {
         this.setPlayer2PhaseContent(PhaseGS.getPlayer2PhaseContent());
     }
 
+    /**
+     *
+     * @return prints out values of all variables
+     */
+
+    public String toString(){
+        for(ArrayList<Card> player1Hand: Card){
+            
+        }
+        return "Turn ID: " +  turnId + "Has Gone Out:" + hasGoneOut +"Goes First:"+ goesFirst +"Player Has Drawn" + playerHasDrawn +
+                "P1 has Phased:" + player1HasPhased + "P2 has Phased:" + player2HasPhased + "P1 Score" + player1Score + "P2 Score" + player2Score +
+                "P1 Phase:"+ player1Phase + "P2 Phase:"+ player2Phase + "P1 Hand" + player1Hand.toString() + "P2 Hand" + player2Hand.toString() +
+                "P1 Phase Content:" + player1PhaseContent.toString() + "P2 Phase Content:" + player2PhaseContent.toString() + "Discard Pile:" + discardPile.toString()+
+                "Draw Pile:" + drawPile;
+    }
     /**
      * attempts to draw a face down card from the draw pile and add it to the player's hand
      * player does not know what the card is until they draw it
@@ -399,17 +417,17 @@ public class Phase10GameState {
 
     private boolean checkIfPhaseEight(List<Card> list) {
         if (list.size() == 7) {
-            return checkSameColors(list);
+            return checkSameColors((ArrayList<Card>) list);
         }
         return false;
     }
 
     public boolean checkSameColors(ArrayList<Card> list) {
-        Card col = null;
+        int color = null;
         for (Card c : list) {
-            if (col == null) {
-                col = c.getColor();
-            } else if (c.getColor() != col) {
+            if (color == null) {
+                color = c.getColor();
+            } else if (c.getColor() != color) {
                 return false;
             }
             return true;
@@ -443,12 +461,12 @@ public class Phase10GameState {
 
         for (Card c : list) {
             if (!firstNumber) {
-                if (number < (c.getNumber()) {
+                if (number < (c.getNumber())) {
                     number = (c.getNumber());
                     firstNumber = true;
                 }
             } else {
-                if ((number + 1) == (c.getNumber()) {
+                if ((number + 1) == (c.getNumber())) {
                     number = (c.getNumber());
                 } else {
                     return false;
@@ -457,4 +475,6 @@ public class Phase10GameState {
             return true;
         }
     }
+
+
 }
