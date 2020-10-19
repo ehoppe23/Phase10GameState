@@ -331,11 +331,4 @@ public class Phase10GameState {
         return false;
     }
 
-    public void playPhase(Phase phase, ArrayList<Card> list1, ArrayList<Card> list2) {
-        checkPhase();
-    }
-
-    public void hitPlayer(ArrayList<Card> list1) {
-
-    }
 }
