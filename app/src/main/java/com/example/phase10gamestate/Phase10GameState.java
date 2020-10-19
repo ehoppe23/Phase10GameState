@@ -336,17 +336,25 @@ public class Phase10GameState {
 
     public boolean playPhase(int playerNum) {
         //checks if valid, player num == playerId, needs to have not phased
-        if(playerNum == 1){
-            if(phase.checkPhase(player1Phase, player1Hand)) player1HasPhased = true;
+        if (playerNum == 1) {
+            if (phase.checkPhase(player1Phase, player1Hand)==true && player1HasPhased == true);
+            for(Card c: player1Hand) {
+                player1Hand.remove(c);
+                player1PhaseContent.add(c);
+                //-> move cards out of player hand into phaseContent variable
+                return true;
+            }
+        } else if (playerNum == 2) {
+            if ((phase.checkPhase(player2Phase, player2Hand) && player2HasPhased) == true);
+            for(Card c: player2Hand) {
+                player2Hand.remove(c);
+                player2PhaseContent.add(c);
+                //-> move cards out of player hand into phaseContent variable
+                return true;
+            }
             //-> move cards out of player hand into phaseContent variable
             return true;
-        }
-        else if(playerNum == 2) {
-            if(phase.checkPhase(player2Phase, player2Hand)) player2HasPhased = true;
-            //-> move cards out of player hand into phaseContent variable
-            return true;
-        }
-        else return false;
+        } else return false;
     }
 
     public boolean hitPlayer(int playerNum, Card selectedCard, int hitOnPlayer) {
@@ -355,12 +363,79 @@ public class Phase10GameState {
         //checks if player has phased (if not return false)
         //if hitOnplayer != playerNum -> check if other player has phased
         //else, if hitOnPlayer != player num, and != other player number return false
+        if (playerNum == this.turnId) {
+            if (playerNum == 1 && player1HasPhased) {
+                if (hitOnPlayer != playerNum) {
+                    if (player2HasPhased == true) {
+                        if (checkHitValid(selectedCard, player2PhaseContent, player2Hand) == true) {
+                            player2PhaseContent.add(selectedCard);
+                            player1Hand.remove(selectedCard);
+                        }
+                    }
+                }
+                return true;
+            } else {
+                return false;
+            }
+        }
+        if (playerNum == 2 && player2HasPhased) {
+            if (hitOnPlayer != playerNum) {
+                if (player1HasPhased == true) {
+                    if (checkHitValid(selectedCard, player1PhaseContent, player1Hand) == true) {
+                        player1PhaseContent.add(selectedCard);
+                        player2Hand.remove(selectedCard);
+                        return true;
+                    }
+                }
+            }
+            return true;
+        } else if (hitOnPlayer == playerNum) { // if hitOnPlayer is the same as playerNum then
+            //  then the player hits on their own phaseContext
+            if (playerNum == 1) {
+                if (player1HasPhased == true) {
+                    if (checkHitValid(selectedCard, player1PhaseContent, player1Hand) == true) {
+                        player1PhaseContent.add(selectedCard);
+                        player1Hand.remove(selectedCard);
+                        return true;
+                    }
+                }
+            } else if(playerNum ==2){
+                if (player2HasPhased == true) {
+                    if (checkHitValid(selectedCard, player2PhaseContent, player2Hand) == true) {
+                        player2PhaseContent.add(selectedCard);
+                        player2Hand.remove(selectedCard);
+                        return true;
+                    }
+                }
+            }
+        } else {
+            return false;
+            //know what the phase is that the player being hit on is in, take their phase content, and see if this selectedCard is a valid addition
+            //could do this in phase class
+            // -> player phase, and phase content, and added card (checkHitValid method)
+            // -> if the move was valid, take card out of player hand, and add it to the appropriate phaseContent variable
+        }
+    }
 
-        //know what the phase is that the player being hit on is in, take their phase content, and see if this selectedCard is a valid addition
-        //could do this in phase class
-        // -> player phase, and phase content, and added card (checkHitValid method)
-        // -> if the move was valid, take card out of player hand, and add it to the appropriate phaseContent variable
-        return false;
+    protected boolean checkHitValid (ArrayList < Card > phaseContent, ArrayList < Card > playerHand){
+        if (playerHand == player1Hand) {
+            for (Card selectedCard : player1Hand) {
+                if(phase.checkPhase(player1PhaseContent, player1Hand)==true);
+                return true;
+            } else {
+                return false;
+            }
+        } else if (playerHand == player2Hand) {
+            for (Card selectedCard : player2Hand) {
+                if(phase.checkPhase(player2PhaseContent, player2Hand) == true) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }
     }
 
 }
