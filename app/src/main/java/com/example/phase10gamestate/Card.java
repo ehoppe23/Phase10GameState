@@ -35,6 +35,7 @@ public class Card {
     }
 
     public String toString(){
+        String color = null;
         if(this.isSkip()){
             return "skip card";
         }
@@ -42,7 +43,19 @@ public class Card {
             return "wild card";
         }
         else{
-            return this.getColor() + " " + this.getNumber();
+            if(this.getColor()==1){
+                color = "yellow";
+            }
+            else if(this.getColor()==2){
+                color = "green";
+            }
+            else if(this.getColor()==3){
+                color = "blue";
+            }
+            else if(this.getColor()==4){
+                color = "red";
+            }
+            return color + " " + this.getNumber();
         }
 
     }
