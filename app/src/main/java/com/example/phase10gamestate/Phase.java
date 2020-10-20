@@ -355,11 +355,13 @@ public class Phase {
         for(int i = 0; i<checkForSet.length; i++) {
             temp[0] = checkForSet[i];
             for (int j = i + 1; j < checkForSet.length; j++) {
-
                 if (checkForSet[j].getNumber() == temp[tempLoc].getNumber()) {
                     temp[tempLoc + 1] = checkForSet[j];
                     tempLoc++;
                 } else {
+                    if(notInSet.length==0){
+                        return null;
+                    }
                     notInSet[notInSetLoc] = checkForSet[j];
                     notInSetLoc++;
                 }
@@ -426,6 +428,9 @@ public class Phase {
                     temp[tempLoc + 1] = checkForRun[j];
                     tempLoc++;
                 } else {
+                    if(notInRun.length==0){
+                        return null;
+                    }
                     notInRun[notInRunLoc] = checkForRun[j];
                     notInRunLoc++;
                 }
@@ -476,6 +481,9 @@ public class Phase {
                     temp[tempLoc + 1] = checkForColor[j];
                     tempLoc++;
                 } else {
+                    if(notInColor.length==0){
+                        return null;
+                    }
                     notInColor[notInColorLoc] = checkForColor[j];
                     notInColorLoc++;
                 }
@@ -550,6 +558,9 @@ public class Phase {
                 }
                 tempPlay1Run[play1Run.length] = selectedCard;
                 if (!(isRun(tempPlay1Run, tempPlay1Run.length, playerNum) == null)) return true;
+                else{
+                    return false;
+                }
             }
             //Sets
             if(this.play1Set1 != null) {
@@ -559,6 +570,9 @@ public class Phase {
                 }
                 tempPlay1Set1[play1Set1.length] = selectedCard;
                 if(!(isSet(tempPlay1Set1, tempPlay1Set1.length, playerNum,1)==null)) return true;
+                else{
+                    return false;
+                }
             }
             if(this.play1Set2 != null) {
                 Card[] tempPlay1Set2 = new Card[play1Set2.length + 1];
@@ -567,6 +581,9 @@ public class Phase {
                 }
                 tempPlay1Set2[play1Set2.length] = selectedCard;
                 if(!(isSet(tempPlay1Set2, tempPlay1Set2.length, playerNum, 2)==null)) return true;
+                else{
+                    return false;
+                }
             }
 
 
@@ -592,6 +609,9 @@ public class Phase {
                 }
                 tempPlay2Run[play2Run.length] = selectedCard;
                 if (!(isRun(tempPlay2Run, tempPlay2Run.length, playerNum) == null)) return true;
+                else{
+                    return false;
+                }
             }
 
             //Sets
@@ -602,6 +622,9 @@ public class Phase {
                 }
                 tempPlay2Set1[play2Set1.length] = selectedCard;
                 if(!(isSet(tempPlay2Set1, tempPlay2Set1.length, playerNum,1)==null)) return true;
+                else{
+                    return false;
+                }
             }
             if(this.play2Set2 != null) {
                 Card[] tempPlay2Set2 = new Card[play2Set2.length + 1];
@@ -610,6 +633,9 @@ public class Phase {
                 }
                 tempPlay2Set2[play2Set2.length] = selectedCard;
                 if(!(isSet(tempPlay2Set2, tempPlay2Set2.length, playerNum, 2)==null)) return true;
+                else{
+                    return false;
+                }
             }
 
             //Colors

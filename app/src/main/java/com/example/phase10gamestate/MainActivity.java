@@ -90,12 +90,7 @@ public class MainActivity extends AppCompatActivity {
             editText.append("Player 2 played a phase!\n\n");
         }
 
-        if(firstInstance.getTurnId() == 1){ //find card to use for hit
-            drawnCard = firstInstance.getPlayer1Hand().get(3);
-        }
-        else if(firstInstance.getTurnId() == 2){
-            drawnCard = firstInstance.getPlayer2Hand().get(3);
-        }
+        drawnCard = new Card(1,4);
         if(firstInstance.hitPlayer(firstInstance.getTurnId(), drawnCard, firstInstance.getTurnId())) { //call method to hit another player
             editText.append("Player " + firstInstance.getTurnId() + " has a hit player " + firstInstance.getTurnId() + "!\n\n");
         }
@@ -103,6 +98,8 @@ public class MainActivity extends AppCompatActivity {
         Phase10GameState thirdInstance = new Phase10GameState(); //create third instance
         Phase10GameState fourthInstance = new Phase10GameState(thirdInstance); //copy third instance
 
+        String second = secondInstance.toString();
+        String fourth = fourthInstance.toString();
         //check second and fourth instance equality
         if(secondInstance.toString().equals(fourthInstance.toString())){
             editText.append("The second and fourth instances are identical!\n\n");
