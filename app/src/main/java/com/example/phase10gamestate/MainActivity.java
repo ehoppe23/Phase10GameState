@@ -81,7 +81,6 @@ public class MainActivity extends AppCompatActivity {
         //check second and fourth instance equality
         if(secondInstance.toString().equals(fourthInstance.toString())){
             editText.append("The second and fourth instances are identical!\n\n");
-
             editText.append("Note, for the following two strings each deck of cards was shuffled," +
                     " so the size, rather than content, of card arrays were compared.\n");
             editText.append("Second Instance: \n" + secondInstance.toString()+ "\n\n");

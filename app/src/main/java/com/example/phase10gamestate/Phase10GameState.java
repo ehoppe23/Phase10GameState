@@ -336,23 +336,25 @@ public class Phase10GameState {
     public boolean playPhase(int playerNum) {
         //checks if valid, player num == playerId, needs to have not phased
         if (playerNum == 1) {
-            if (phase.checkPhase(player1Phase, player1Hand) == true && player1HasPhased == true) ;
-            for (Card c : player1Hand) {
-                player1Hand.remove(c);
-                player1PhaseContent.add(c);
-                //-> move cards out of player hand into phaseContent variable
-                return true;
+            if (phase.checkPhase(player1Phase, player1Hand, playerNum) == true && player1HasPhased == true) {
+                for (Card c : player1Hand) {
+                    player1Hand.remove(c);
+                    player1PhaseContent.add(c);
+                    //-> move cards out of player hand into phaseContent variable
+                    return true;
+                }
+            } else if (playerNum == 2) {
+                if ((phase.checkPhase(player2Phase, player2Hand, playerNum) && player2HasPhased) == true) {
+                    for (Card c : player2Hand) {
+                        player2Hand.remove(c);
+                        player2PhaseContent.add(c);
+                        //-> move cards out of player hand into phaseContent variable
+                        return true;
+                    }
+
+                }
+                return false;
             }
-        } else if (playerNum == 2) {
-            if ((phase.checkPhase(player2Phase, player2Hand) && player2HasPhased) == true) ;
-            for (Card c : player2Hand) {
-                player2Hand.remove(c);
-                player2PhaseContent.add(c);
-                //-> move cards out of player hand into phaseContent variable
-                return true;
-            }
-            //-> move cards out of player hand into phaseContent variable
-            return true;
         }
         return false;
     }
@@ -367,7 +369,7 @@ public class Phase10GameState {
             if (hitOnPlayer != playerNum) { //if this is false in a 2 player game, player is hitting on opposite player phase
                 if (playerNum == 1 && player1HasPhased) {
                     if (player2HasPhased == true) {
-                        if (checkHitValid(selectedCard, player2PhaseContent, player2Hand) == true) {
+                        if (phase.checkHitValid(selectedCard, player2PhaseContent, player2Hand, playerNum) == true) {
                             player2PhaseContent.add(selectedCard);
                             player1Hand.remove(selectedCard);
                             return true;
@@ -375,7 +377,7 @@ public class Phase10GameState {
                     }
                 } else if (playerNum == 2 && player2HasPhased) {
                     if (player1HasPhased == true) {
-                        if (checkHitValid(selectedCard, player1PhaseContent, player1Hand) == true) {
+                        if (phase.checkHitValid(selectedCard, player1PhaseContent, player1Hand, playerNum) == true) {
                             player1PhaseContent.add(selectedCard);
                             player2Hand.remove(selectedCard);
                             return true;
@@ -384,7 +386,7 @@ public class Phase10GameState {
                 } else if (hitOnPlayer == playerNum) { // if hitOnPlayer is the same as playerNum then the player hits on their own phaseContext
                     if (playerNum == 1) {
                         if (player1HasPhased == true) {
-                            if (checkHitValid(selectedCard, player1PhaseContent, player1Hand) == true) {
+                            if (phase.checkHitValid(selectedCard, player1PhaseContent, player1Hand, playerNum) == true) {
                                 player1PhaseContent.add(selectedCard);
                                 player1Hand.remove(selectedCard);
                                 return true;
@@ -393,7 +395,7 @@ public class Phase10GameState {
                     }
                     if (playerNum == 2) {
                         if (player2HasPhased == true) {
-                            if (checkHitValid(selectedCard, player2PhaseContent, player2Hand) == true) {
+                            if (phase.checkHitValid(selectedCard, player2PhaseContent, player2Hand, playerNum) == true) {
                                 player2PhaseContent.add(selectedCard);
                                 player2Hand.remove(selectedCard);
                                 return true;
@@ -410,19 +412,5 @@ public class Phase10GameState {
         }
         return false;
     }
-
-    protected boolean checkHitValid(Card selectedCard, ArrayList < Card > phaseContent, ArrayList < Card > playerHand){
-            if (playerHand == player1Hand) {
-                if (phase.checkPhase(player1Phase, player1Hand) == true) {
-                    return true;
-                } else return false;
-            } else if (playerHand == player2Hand) {
-                if (phase.checkPhase(player2Phase, player2Hand) == true) return true;
-                else return false;
-            }
-            return false;
-
-    }
-
 
 }
