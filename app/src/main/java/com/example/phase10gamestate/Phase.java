@@ -207,29 +207,33 @@ public class Phase {
         Card[] temp = new Card[size];
         Card[] notInSet = new Card[checkForSet.length-size];
         int notInSetLoc = 0;
-        int tempLoc = 1;
+        int tempLoc = 0;
         for(int i = 0; i<checkForSet.length; i++) {
             temp[0] = checkForSet[i];
             for (int j = i + 1; j < checkForSet.length; j++) {
-                if(tempLoc < temp.length){
-                    if (checkForSet[j].getNumber() == temp[tempLoc].getNumber() ) {
-                        temp[tempLoc + 1] = checkForSet[j];
-                        tempLoc++;
-                    }
-                    else {
-                        notInSet[notInSetLoc] = checkForSet[j];
-                        notInSetLoc++;
-                    }
 
+                if (checkForSet[j].getNumber() == temp[tempLoc].getNumber()) {
+                    temp[tempLoc + 1] = checkForSet[j];
+                    tempLoc++;
+                } else {
+                    notInSet[notInSetLoc] = checkForSet[j];
+                    notInSetLoc++;
                 }
-                else{
+            }
+                if(tempLoc >= temp.length -1){
                     if(playerNum == 1) {
                         if(setNum == 1){
                             this.play1Set1 = temp;
+                            if(notInSetLoc == 0){
+                                return checkForSet;
+                            }
                             return notInSet;
                         }
                         else if(setNum == 2){
                             this.play1Set2 = temp;
+                            if(notInSetLoc == 0){
+                                return checkForSet;
+                            }
                             return notInSet;
                         }
 
@@ -237,15 +241,20 @@ public class Phase {
                     else if(playerNum == 2){
                         if(setNum == 1){
                             this.play2Set1 = temp;
+                            if(notInSetLoc == 0){
+                                return checkForSet;
+                            }
                             return notInSet;
                         }
                         else if(setNum == 2){
                             this.play2Set2 = temp;
+                            if(notInSetLoc == 0){
+                                return checkForSet;
+                            }
                             return notInSet;
                         }
                     }
                 }
-            }
         }
         return null;
     }
@@ -259,32 +268,36 @@ public class Phase {
         Card[] temp = new Card[size];
         Card[] notInRun = new Card[checkForRun.length-size];
         int notInRunLoc = 0;
-        int tempLoc = 1;
+        int tempLoc = 0;
         for(int i = 0; i<checkForRun.length; i++) {
             temp[0] = checkForRun[i];
             for (int j = i + 1; j < checkForRun.length; j++) {
-                if(tempLoc < temp.length){
-                    if (checkForRun[j].getNumber() == temp[tempLoc].getNumber() + 1 ) {
-                        temp[tempLoc + 1] = checkForRun[j];
-                        tempLoc++;
-                    }
-                    else {
-                        notInRun[notInRunLoc] = checkForRun[j];
-                        notInRunLoc++;
-                    }
 
+                if (checkForRun[j].getNumber() == temp[tempLoc].getNumber() + 1) {
+                    temp[tempLoc + 1] = checkForRun[j];
+                    tempLoc++;
+                } else {
+                    notInRun[notInRunLoc] = checkForRun[j];
+                    notInRunLoc++;
                 }
-                else{
+
+            }
+            if(tempLoc >= temp.length -1){
                     if(playerNum == 1) {
                         this.play1Run = temp;
+                        if(notInRunLoc == 0){
+                            return checkForRun;
+                        }
                         return notInRun;
                     }
                     else if(playerNum == 2){
                         this.play2Run = temp;
+                        if(notInRunLoc == 0){
+                            return checkForRun;
+                        }
                         return notInRun;
                     }
                 }
-            }
         }
         return null;
     }
@@ -301,32 +314,37 @@ public class Phase {
         Card[] temp = new Card[size];
         Card[] notInColor = new Card[checkForColor.length-size];
         int notInColorLoc = 0;
-        int tempLoc = 1;
+        int tempLoc = 0;
         for(int i = 0; i<checkForColor.length; i++) {
             temp[0] = checkForColor[i];
             for (int j = i + 1; j < checkForColor.length; j++) {
-                if(tempLoc < temp.length){
-                    if (checkForColor[j].getColor() == temp[tempLoc].getColor()) {
-                        temp[tempLoc + 1] = checkForColor[j];
-                        tempLoc++;
-                    }
-                    else {
-                        notInColor[notInColorLoc] = checkForColor[j];
-                        notInColorLoc++;
-                    }
 
+                if (checkForColor[j].getColor() == temp[tempLoc].getColor()) {
+                    temp[tempLoc + 1] = checkForColor[j];
+                    tempLoc++;
+                } else {
+                    notInColor[notInColorLoc] = checkForColor[j];
+                    notInColorLoc++;
                 }
-                else{
+
+            }
+            if(tempLoc >= temp.length -1){
                     if(playerNum == 1) {
                         this.play1Color = temp;
+                        if(notInColorLoc == 0){
+                            return checkForColor;
+                        }
                         return notInColor;
                     }
                     else if(playerNum == 2){
                         this.play2Color = temp;
+                        if(notInColorLoc == 0){
+                            return checkForColor;
+                        }
                         return notInColor;
                     }
                 }
-            }
+
         }
         return null;
     }
@@ -368,35 +386,33 @@ public class Phase {
                tempPlay1Run[i] = play1Run[i];
             }
             tempPlay1Run[play1Run.length] = selectedCard;
-            if(isRun(tempPlay1Run, size, playerNum)) return true;
-            else return false;
+            if(!(isRun(tempPlay1Run, tempPlay1Run.length, playerNum)==null)) return true;
 
             //sets
             Card[] tempPlay1Set1 = new Card[play1Set1.length+1];
             for(int i=0; i<play1Set1.length; i++) {
-                tempPlay1Set1 = play1Set1[i] ;
+                tempPlay1Set1[i] = play1Set1[i] ;
             }
             tempPlay1Set1[play1Set1.length]=selectedCard;
 
             Card[] tempPlay1Set2 = new Card[play1Set2.length+1];
             for(int i=0; i<play1Set2.length; i++) {
-                tempPlay1Set2 = play1Set2[i] ;
+                tempPlay1Set2[i] = play1Set2[i] ;
             }
             tempPlay1Set2[play1Set2.length]=selectedCard;
 
-            if(isSet(tempPlay1Set1, size, playNum,1)) return true;
-            else if(isSet(tempPlay1Set2, size, playerNum), 2)) return true;
-            else return false;
+            if(!(isSet(tempPlay1Set1, tempPlay1Set1.length, playerNum,1)==null)) return true;
+            else if(!(isSet(tempPlay1Set2, tempPlay1Set2.length, playerNum, 2)==null)) return true;
 
             // colors
 
             Card[] tempPlay1Color = new Card[play1Color.length+1];
             for(int i=0; i<play1Color.length; i++) {
-                tempPlay1Color = play1Color[i];
+                tempPlay1Color[i] = play1Color[i];
                 }
-            tempPlay1Color[play1Color.lenght] = selectedCard;
+            tempPlay1Color[play1Color.length] = selectedCard;
 
-            if(isColorGroup(tempPlay1Color, size, playerNum)) return true;
+            if(!(isColorGroup(tempPlay1Color, tempPlay1Color.length, playerNum)==null)) return true;
             else return false;
 
         } else if (playerNum == 2) {
@@ -406,37 +422,35 @@ public class Phase {
             }
             tempPlay2Run[play2Run.length] = selectedCard;
 
-            if(isRun(tempPlay2Run, size, playerNum)) return true;
-            else return false;
+            if(!(isRun(tempPlay2Run, tempPlay2Run.length, playerNum)==null)) return true;
 
             //sets
             Card[] tempPlay2Set1 = new Card[play2Set1.length+1];
             for(int i=0; i<play2Set1.length; i++) {
-                tempPlay1Set1 = play2Set1[i] ;
+                tempPlay2Set1[i] = play2Set1[i] ;
             }
             tempPlay2Set1[play2Set1.length]=selectedCard;
 
             Card[] tempPlay2Set2 = new Card[play2Set2.length+1];
             for(int i=0; i<play2Set2.length; i++) {
-                tempPlay2Set2 = play2Set2[i] ;
+                tempPlay2Set2[i] = play2Set2[i] ;
             }
             tempPlay2Set2[play2Set2.length]=selectedCard;
 
-            if(isSet(tempPlay2Set1, size, playNum,1)) return true;
-            else if(isSet(tempPlay2Set2, size, playerNum), 2)) return true;
-            else return false;
+            if(!(isSet(tempPlay2Set1, tempPlay2Set1.length, playerNum,1)==null)) return true;
+            else if(!(isSet(tempPlay2Set2, tempPlay2Set2.length, playerNum, 2)==null)) return true;
 
             // colors
 
             Card[] tempPlay2Color = new Card[play2Color.length+1];
             for(int i=0; i<play2Color.length; i++) {
-                tempPlay2Color = play2Color[i];
+                tempPlay2Color[i] = play2Color[i];
             }
-            tempPlay2Color[play2Color.lenght] = selectedCard;
+            tempPlay2Color[play2Color.length] = selectedCard;
 
-            if(isColorGroup(tempPlay2Color, size, playerNum)) return true;
+            if(!(isColorGroup(tempPlay2Color, tempPlay2Color.length, playerNum)==null)) return true;
             else return false;
-    }
-
+        }
+        return false;
     }//checkHitValid end
 }

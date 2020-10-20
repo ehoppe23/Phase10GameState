@@ -346,7 +346,7 @@ public class Phase10GameState {
         //checks if valid, player num == playerId, needs to have not phased
         if (playerNum == 1) {
             if (phase.checkPhase(player1Phase, phaseContent, playerNum) && !player1HasPhased) {
-                for (Card c : player1Hand) {
+                for (Card c : phaseContent) {
                     player1Hand.remove(c);
                     player1PhaseContent.add(c);
                 }
@@ -355,7 +355,7 @@ public class Phase10GameState {
             }
         } else if (playerNum == 2) {
             if (phase.checkPhase(player2Phase, phaseContent, playerNum) && !player2HasPhased) {
-                for (Card c : player2Hand) {
+                for (Card c : phaseContent) {
                     player2Hand.remove(c);
                     player2PhaseContent.add(c);
                 }

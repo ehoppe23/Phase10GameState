@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -54,9 +55,13 @@ public class MainActivity extends AppCompatActivity {
         givenHand.add(new Card(2,1));
         givenHand.add(new Card(2,2));
         givenHand.add(new Card(2,3));
-        ArrayList<Card> possiblePhase = givenHand;
-        possiblePhase.remove(4);
-        possiblePhase.remove(3);
+        ArrayList<Card> possiblePhase = new ArrayList<Card>();
+        possiblePhase.add(new Card(1,1));
+        possiblePhase.add(new Card(1,2));
+        possiblePhase.add(new Card(1,3));
+        possiblePhase.add(new Card(2,1));
+        possiblePhase.add(new Card(2,2));
+        possiblePhase.add(new Card(2,3));
 
         firstInstance.setPlayer1Hand(givenHand);
         firstInstance.setPlayer2Hand(givenHand);
@@ -67,28 +72,22 @@ public class MainActivity extends AppCompatActivity {
 
         Card drawnCard = firstInstance.getDrawPile().get(0); //store card to use in string
 
-        firstInstance.drawFaceDown(firstInstance.getTurnId()); // call method for drawing from draw pile
-        editText.append("Player " + firstInstance.getTurnId() + " has drawn from the draw pile.\n"
+        firstInstance.drawFaceDown(1); // call method for drawing from draw pile
+        editText.append("Player 1 has drawn from the draw pile.\n"
             + "They drew a " + drawnCard.toString() + ".\n\n"); //print info about method call
 
         drawnCard = firstInstance.getDiscardPile().lastElement();
-        firstInstance.drawFaceDown(firstInstance.getTurnId());//call method for drawing from discard
-        editText.append("Player " + firstInstance.getTurnId() + " has drawn from the discard pile.\n"
+        firstInstance.drawFaceDown(1);//call method for drawing from discard
+        editText.append("Player 1 has drawn from the discard pile.\n"
                 + "They drew a " + drawnCard.toString() + ".\n\n");// print method call info
 
-        if(firstInstance.getTurnId() == 1){ //find discarded card
-            drawnCard = firstInstance.getPlayer1Hand().get(1);
-        }
-        else if(firstInstance.getTurnId() == 2){
-            drawnCard = firstInstance.getPlayer2Hand().get(1);
-        }
-        firstInstance.discard(firstInstance.getTurnId(), 1); //call method to discard
-        editText.append("Player "  + firstInstance.getTurnId() + " discarded a "
+        drawnCard = firstInstance.getPlayer1Hand().get(1);
+        firstInstance.discard(1, 1); //call method to discard
+        editText.append("Player 1 discarded a "
                 + drawnCard.toString() + ".\n\n"); //print info about discard method call
 
-
-        if (firstInstance.playPhase(firstInstance.getTurnId(), possiblePhase)) {// call method to play a phase
-            editText.append("Player " + firstInstance.getTurnId() + " played a phase!\n\n");
+        if (firstInstance.playPhase(2, possiblePhase)) {// call method to play a phase
+            editText.append("Player 2 played a phase!\n\n");
         }
 
         if(firstInstance.getTurnId() == 1){ //find card to use for hit
