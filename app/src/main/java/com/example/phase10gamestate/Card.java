@@ -1,3 +1,10 @@
+/**
+* @author Kirsten Foster, Alexis Molina, Emily Hoppe, Grace Penunuri
+ * Holds information about each card (particularly number and color)
+ * Also includes getters/setters for card info
+ * Includes a "to string" method to explain what the card is
+*/
+
 package com.example.phase10gamestate;
 
 public class Card {
@@ -6,6 +13,11 @@ public class Card {
     //wild cards are 0,0
     //skip cards are -1,-1
 
+    /**
+     * sets number and color of card
+     * @param n holds number of card
+     * @param c holds color of card
+     */
     public Card(int n, int c){
         this.number = n;
         this.color = c;
@@ -34,6 +46,10 @@ public class Card {
         return this.number == -1 && this.color == -1;
     }
 
+    /**
+     * checks if card is wild or skip, otherwise checks color and number
+     * @return information about card
+     */
     public String toString(){
         String color = null;
         if(this.isSkip()){
