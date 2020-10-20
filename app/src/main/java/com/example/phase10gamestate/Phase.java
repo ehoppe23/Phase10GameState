@@ -1,3 +1,9 @@
+/**
+ * @author Kirsten Foster, Alexis Molina, Emily Hoppe, Grace Penunuri
+ * Holds information about phases including phase rules, the cards used for the phase
+ * Checks if phase is successful
+ */
+
 package com.example.phase10gamestate;
 
 import java.util.ArrayList;
@@ -32,7 +38,7 @@ public class Phase {
 
     //needs constructor
 
-    /* checks if the play can play a phase, first by seeing what phase
+    /** checks if the play can play a phase, first by seeing what phase
      * the player is on, then my referencing two different methods that checks
      * each card to make sure the play can hit */
     public boolean checkPhase(int playerPhase, ArrayList<Card> phaseContent, int playerNum) {
@@ -362,4 +368,5 @@ public class Phase {
         }
         return false;
     }
+
 }

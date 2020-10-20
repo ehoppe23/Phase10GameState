@@ -1,7 +1,10 @@
-//Need to add header comment to every java file
-//Did we remember a external citation?
+/**
+ * Game state holding information about each player and getters and setters for each
+ * @author Kirsten Foster, Alexis Molina, Emily Hoppe, Grace Penunuri
+ */
 package com.example.phase10gamestate;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -160,6 +163,7 @@ public class Phase10GameState {
 
     /**
      * Constructor - Initializes variables with 0/null values
+     * also initializes deck/hands with shuffled cards
      */
     public Phase10GameState() {
         turnId = 0;
@@ -191,9 +195,9 @@ public class Phase10GameState {
          Date: 18 Oct 2020
          Problem: Wondering if there was a way to shuffle an array list
          Resource:
-         https://www.roytuts.com/how-to-shuffle-an-arraylist-using-java
-         /#:~:text=%20How%20to%20shuffle%20an%20ArrayList%20using%20Java,
-         test%20the%20program.%20Remember%20on%20each...%20More%20
+             https://www.roytuts.com/how-to-shuffle-an-arraylist-using-java
+             /#:~:text=%20How%20to%20shuffle%20an%20ArrayList%20using%20Java,
+             test%20the%20program.%20Remember%20on%20each...%20More%20
          Solution: I used the suggested method
          */
         Collections.shuffle(drawPile);//shuffle draw pile
@@ -320,6 +324,7 @@ public class Phase10GameState {
     }
 
     /**
+     * converts all information to a string
      * @return prints out values of all variables
      */
     public String toString() {
@@ -332,33 +337,43 @@ public class Phase10GameState {
                 "\nDraw Pile Size: " + drawPile.size();
     }
 
-
-    public boolean playPhase(int playerNum) {
+    /**
+     * attempts to play a phase and
+     * @param playerNum the player who is trying to play a phase
+     * @return if phasing was successful
+     */
+    public boolean playPhase(int playerNum, ArrayList<Card> phaseContent) {
         //checks if valid, player num == playerId, needs to have not phased
         if (playerNum == 1) {
-            if (phase.checkPhase(player1Phase, player1Hand, playerNum) == true && player1HasPhased == true) {
+            if (phase.checkPhase(player1Phase, phaseContent, playerNum) && !player1HasPhased) {
                 for (Card c : player1Hand) {
                     player1Hand.remove(c);
                     player1PhaseContent.add(c);
-                    //-> move cards out of player hand into phaseContent variable
-                    return true;
                 }
-            } else if (playerNum == 2) {
-                if ((phase.checkPhase(player2Phase, player2Hand, playerNum) && player2HasPhased) == true) {
-                    for (Card c : player2Hand) {
-                        player2Hand.remove(c);
-                        player2PhaseContent.add(c);
-                        //-> move cards out of player hand into phaseContent variable
-                        return true;
-                    }
-
-                }
-                return false;
+                player1HasPhased = true;
+                return true;
             }
+        } else if (playerNum == 2) {
+            if (phase.checkPhase(player2Phase, phaseContent, playerNum) && !player2HasPhased) {
+                for (Card c : player2Hand) {
+                    player2Hand.remove(c);
+                    player2PhaseContent.add(c);
+                }
+                player2HasPhased = true;
+                return true;
+            }
+            return true;
         }
         return false;
     }
 
+    /**
+     * checks if hit is valid and plays hit if it is
+     * @param playerNum holds which player is currently playing
+     * @param selectedCard holds what card they're using to hit
+     * @param hitOnPlayer holds which player they're trying to hit
+     * @return if hit successful
+     */
     public boolean hitPlayer(int playerNum, Card selectedCard, int hitOnPlayer) {
         //validity checks
         //checks if player num == same as id
@@ -368,25 +383,26 @@ public class Phase10GameState {
         if (playerNum == this.turnId) {
             if (hitOnPlayer != playerNum) { //if this is false in a 2 player game, player is hitting on opposite player phase
                 if (playerNum == 1 && player1HasPhased) {
-                    if (player2HasPhased == true) {
-                        if (phase.checkHitValid(selectedCard, player2PhaseContent, player2Hand, playerNum) == true) {
+                    if (player2HasPhased) {
+                        if (phase.checkHitValid(selectedCard, player1PhaseContent, playerNum)) {
                             player2PhaseContent.add(selectedCard);
                             player1Hand.remove(selectedCard);
                             return true;
                         } else return false;
                     }
                 } else if (playerNum == 2 && player2HasPhased) {
-                    if (player1HasPhased == true) {
-                        if (phase.checkHitValid(selectedCard, player1PhaseContent, player1Hand, playerNum) == true) {
+                    if (player1HasPhased) {
+                        if (phase.checkHitValid(selectedCard, player2PhaseContent, playerNum)) {
                             player1PhaseContent.add(selectedCard);
                             player2Hand.remove(selectedCard);
                             return true;
                         } else return false;
                     }
-                } else if (hitOnPlayer == playerNum) { // if hitOnPlayer is the same as playerNum then the player hits on their own phaseContext
+                }
+            }else if (hitOnPlayer == playerNum) { // if hitOnPlayer is the same as playerNum then the player hits on their own phaseContext
                     if (playerNum == 1) {
-                        if (player1HasPhased == true) {
-                            if (phase.checkHitValid(selectedCard, player1PhaseContent, player1Hand, playerNum) == true) {
+                        if (player1HasPhased) {
+                            if (phase.checkHitValid(selectedCard, player1PhaseContent, playerNum)) {
                                 player1PhaseContent.add(selectedCard);
                                 player1Hand.remove(selectedCard);
                                 return true;
@@ -394,8 +410,8 @@ public class Phase10GameState {
                         }
                     }
                     if (playerNum == 2) {
-                        if (player2HasPhased == true) {
-                            if (phase.checkHitValid(selectedCard, player2PhaseContent, player2Hand, playerNum) == true) {
+                        if (player2HasPhased) {
+                            if (phase.checkHitValid(selectedCard, player2PhaseContent, playerNum)) {
                                 player2PhaseContent.add(selectedCard);
                                 player2Hand.remove(selectedCard);
                                 return true;
@@ -408,9 +424,8 @@ public class Phase10GameState {
                 // -> player phase, and phase content, and added card (checkHitValid method)
                 // -> if the move was valid, take card out of player hand, and add it to the appropriate phaseContent variable
 
-            }
+
         }
         return false;
     }
-
 }
