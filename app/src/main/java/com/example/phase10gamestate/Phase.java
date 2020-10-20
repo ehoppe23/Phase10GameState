@@ -259,10 +259,14 @@ public class Phase {
         return null;
     }
 
-    /* isRun sorts through to play chronologically and stores them as an array for
-       specific player, and those that cannot be sorted chronilogically are stored
-       in an array for those not in a run
-
+    /**
+     * isRun sorts through to play chronologically and stores them as an array for
+     * specific player, and those that cannot be sorted chronilogically are stored
+     * in an array for those not in a run
+     * @param checkForRun
+     * @param size
+     * @param playerNum
+     * @return
      */
     public Card[] isRun(Card[] checkForRun, int size, int playerNum){
         Card[] temp = new Card[size];
@@ -303,12 +307,16 @@ public class Phase {
     }
 
 
-    /* isColorGroup check runs through the cards and checks to see how many of the
-       cards are the same card, checkForColor parameter stores the color in an array,
-       the size indicates how many need to be the same color, and the playerNum
-       allows us to designate to which Card set for which player needs to assign the remaining
-       unused cards and the used cards to which color set
-
+    /**
+     * isColorGroup check runs through the cards and checks to see how many of the
+     *        cards are the same card, checkForColor parameter stores the color in an array,
+     *        the size indicates how many need to be the same color, and the playerNum
+     *        allows us to designate to which Card set for which player needs to assign the remaining
+     *        unused cards and the used cards to which color set
+     * @param checkForColor the cards being checked for color match
+     * @param size the size of the color set being searched for
+     * @param playerNum the number of the player that is phasing
+     * @return null if unsuccessful, the extra cards if successful and cards are leftover, or the set if no extra cards
      */
     public Card[] isColorGroup(Card[] checkForColor, int size, int playerNum){
         Card[] temp = new Card[size];
@@ -349,9 +357,13 @@ public class Phase {
         return null;
     }
 
-    /* sortCards sorts through the cards of phaseContent so that
-        for the isRun, isSet, isColorGroup methods the cards can be
-        sorted from smallest to largest via card array as opposed to an ArrayList
+    /**
+     * sortCards sorts through the cards of phaseContent so that
+     * for the isRun, isSet, isColorGroup methods the cards can be
+     * sorted from smallest to largest via card array as opposed to an ArrayList
+     *
+     * @param attempt the cards attempting to be phased
+     * @return the sorted card array
      */
     public Card[] sortCards(ArrayList<Card> attempt){
         Card[] arr = new Card[attempt.size()];
@@ -374,82 +386,98 @@ public class Phase {
         return arr;
     }
 
-    /* checkHitValid checks if the selected card is valid
-
+    /**
+     * checkHitValid checks if the selected card is valid
+     * @param selectedCard the card that is being hit
+     * @param phaseContent phase that it is being hit to
+     * @param playerNum the player that is hitting
+     * @return true if hit is successful
      */
     protected boolean checkHitValid(Card selectedCard, ArrayList<Card> phaseContent, int playerNum) {
         if (playerNum == 1) {
 
-            //runs
-            Card[] tempPlay1Run = new Card[play1Run.length+1];
-            for(int i = 0; i<play1Run.length; i++){
-               tempPlay1Run[i] = play1Run[i];
-            }
-            tempPlay1Run[play1Run.length] = selectedCard;
-            if(!(isRun(tempPlay1Run, tempPlay1Run.length, playerNum)==null)) return true;
-
-            //sets
-            Card[] tempPlay1Set1 = new Card[play1Set1.length+1];
-            for(int i=0; i<play1Set1.length; i++) {
-                tempPlay1Set1[i] = play1Set1[i] ;
-            }
-            tempPlay1Set1[play1Set1.length]=selectedCard;
-
-            Card[] tempPlay1Set2 = new Card[play1Set2.length+1];
-            for(int i=0; i<play1Set2.length; i++) {
-                tempPlay1Set2[i] = play1Set2[i] ;
-            }
-            tempPlay1Set2[play1Set2.length]=selectedCard;
-
-            if(!(isSet(tempPlay1Set1, tempPlay1Set1.length, playerNum,1)==null)) return true;
-            else if(!(isSet(tempPlay1Set2, tempPlay1Set2.length, playerNum, 2)==null)) return true;
-
-            // colors
-
-            Card[] tempPlay1Color = new Card[play1Color.length+1];
-            for(int i=0; i<play1Color.length; i++) {
-                tempPlay1Color[i] = play1Color[i];
+            //Runs
+            if(this.play1Run != null) {
+                Card[] tempPlay1Run = new Card[play1Run.length + 1];
+                for (int i = 0; i < play1Run.length; i++) {
+                    tempPlay1Run[i] = play1Run[i];
                 }
-            tempPlay1Color[play1Color.length] = selectedCard;
+                tempPlay1Run[play1Run.length] = selectedCard;
+                if (!(isRun(tempPlay1Run, tempPlay1Run.length, playerNum) == null)) return true;
+            }
+            //Sets
+            if(this.play1Set1 != null) {
+                Card[] tempPlay1Set1 = new Card[play1Set1.length + 1];
+                for (int i = 0; i < play1Set1.length; i++) {
+                    tempPlay1Set1[i] = play1Set1[i];
+                }
+                tempPlay1Set1[play1Set1.length] = selectedCard;
+                if(!(isSet(tempPlay1Set1, tempPlay1Set1.length, playerNum,1)==null)) return true;
+            }
+            if(this.play1Set2 != null) {
+                Card[] tempPlay1Set2 = new Card[play1Set2.length + 1];
+                for (int i = 0; i < play1Set2.length; i++) {
+                    tempPlay1Set2[i] = play1Set2[i];
+                }
+                tempPlay1Set2[play1Set2.length] = selectedCard;
+                if(!(isSet(tempPlay1Set2, tempPlay1Set2.length, playerNum, 2)==null)) return true;
+            }
 
-            if(!(isColorGroup(tempPlay1Color, tempPlay1Color.length, playerNum)==null)) return true;
-            else return false;
 
+            //Colors
+            if(this.play1Color != null) {
+                Card[] tempPlay1Color = new Card[play1Color.length + 1];
+                for (int i = 0; i < play1Color.length; i++) {
+                    tempPlay1Color[i] = play1Color[i];
+                }
+                tempPlay1Color[play1Color.length] = selectedCard;
+
+                if (!(isColorGroup(tempPlay1Color, tempPlay1Color.length, playerNum) == null))
+                    return true;
+                else return false;
+            }
         } else if (playerNum == 2) {
-            Card[] tempPlay2Run = new Card[play2Run.length+1];
-            for(int i = 0; i<play2Run.length; i++){
-                tempPlay2Run[i] = play2Run[i];
+
+            //Runs
+            if(this.play2Run != null) {
+                Card[] tempPlay2Run = new Card[play2Run.length + 1];
+                for (int i = 0; i < play2Run.length; i++) {
+                    tempPlay2Run[i] = play2Run[i];
+                }
+                tempPlay2Run[play2Run.length] = selectedCard;
+                if (!(isRun(tempPlay2Run, tempPlay2Run.length, playerNum) == null)) return true;
             }
-            tempPlay2Run[play2Run.length] = selectedCard;
 
-            if(!(isRun(tempPlay2Run, tempPlay2Run.length, playerNum)==null)) return true;
-
-            //sets
-            Card[] tempPlay2Set1 = new Card[play2Set1.length+1];
-            for(int i=0; i<play2Set1.length; i++) {
-                tempPlay2Set1[i] = play2Set1[i] ;
+            //Sets
+            if(this.play2Set1 != null) {
+                Card[] tempPlay2Set1 = new Card[play2Set1.length + 1];
+                for (int i = 0; i < play2Set1.length; i++) {
+                    tempPlay2Set1[i] = play2Set1[i];
+                }
+                tempPlay2Set1[play2Set1.length] = selectedCard;
+                if(!(isSet(tempPlay2Set1, tempPlay2Set1.length, playerNum,1)==null)) return true;
             }
-            tempPlay2Set1[play2Set1.length]=selectedCard;
-
-            Card[] tempPlay2Set2 = new Card[play2Set2.length+1];
-            for(int i=0; i<play2Set2.length; i++) {
-                tempPlay2Set2[i] = play2Set2[i] ;
+            if(this.play2Set2 != null) {
+                Card[] tempPlay2Set2 = new Card[play2Set2.length + 1];
+                for (int i = 0; i < play2Set2.length; i++) {
+                    tempPlay2Set2[i] = play2Set2[i];
+                }
+                tempPlay2Set2[play2Set2.length] = selectedCard;
+                if(!(isSet(tempPlay2Set2, tempPlay2Set2.length, playerNum, 2)==null)) return true;
             }
-            tempPlay2Set2[play2Set2.length]=selectedCard;
 
-            if(!(isSet(tempPlay2Set1, tempPlay2Set1.length, playerNum,1)==null)) return true;
-            else if(!(isSet(tempPlay2Set2, tempPlay2Set2.length, playerNum, 2)==null)) return true;
+            //Colors
+            if(this.play2Color != null) {
+                Card[] tempPlay2Color = new Card[play2Color.length + 1];
+                for (int i = 0; i < play2Color.length; i++) {
+                    tempPlay2Color[i] = play2Color[i];
+                }
+                tempPlay2Color[play2Color.length] = selectedCard;
 
-            // colors
-
-            Card[] tempPlay2Color = new Card[play2Color.length+1];
-            for(int i=0; i<play2Color.length; i++) {
-                tempPlay2Color[i] = play2Color[i];
+                if (!(isColorGroup(tempPlay2Color, tempPlay2Color.length, playerNum) == null))
+                    return true;
+                else return false;
             }
-            tempPlay2Color[play2Color.length] = selectedCard;
-
-            if(!(isColorGroup(tempPlay2Color, tempPlay2Color.length, playerNum)==null)) return true;
-            else return false;
         }
         return false;
     }//checkHitValid end
