@@ -337,24 +337,26 @@ public class Phase10GameState {
     public boolean playPhase(int playerNum) {
         //checks if valid, player num == playerId, needs to have not phased
         if (playerNum == 1) {
-            if (phase.checkPhase(player1Phase, player1Hand) && player1HasPhased) {
-                for (Card c : player1Hand) {
-                    player1Hand.remove(c);
+            if (phase.checkPhase(player1Phase, player1Hand, player1PhaseContent, playerNum)==true && player1HasPhased == false);
+                for(Card c: player1Hand) {
+                    player1Hand.delete(c);
                     player1PhaseContent.add(c);
-                }
-                return true;
-            }
-        } else if (playerNum == 2) {
-            if ((phase.checkPhase(player2Phase, player2Hand) && player2HasPhased)) {
-                for (Card c : player2Hand) {
-                    player2Hand.remove(c);
-                    player2PhaseContent.add(c);
+                    player1HasPhased =true;
                     //-> move cards out of player hand into phaseContent variable
+                    return true;
                 }
+        } else if (playerNum == 2) {
+            if (phase.checkPhase(player2Phase, player2Hand) && player2HasPhased == false);
+            for(Card c: player2Hand) {
+                player2Hand.delete(c);
+                player2PhaseContent.add(c);
+                player2HasPhased =true;
+                //-> move cards out of player hand into phaseContent variable
                 return true;
             }
-        }
-        return false;
+            //-> move cards out of player hand into phaseContent variable
+            return true;
+        } else return false;
     }
 
     public boolean hitPlayer(int playerNum, Card selectedCard, int hitOnPlayer) {
@@ -413,12 +415,21 @@ public class Phase10GameState {
 
     protected boolean checkHitValid(Card selectedCard, ArrayList < Card > phaseContent, ArrayList < Card > playerHand){
             if (playerHand == player1Hand) {
-                return phase.checkPhase(player1Phase, player1Hand);
+                   if(phase.checkPhase(player1PhaseContent, player1Hand)==true) {
+                    return true;
+                    } else {
+                    return false;
+                }
             } else if (playerHand == player2Hand) {
-                return phase.checkPhase(player2Phase, player2Hand);
+                   if(phase.checkPhase(player2PhaseContent, player2Hand) == true) {
+                       return true;
+                   } else {
+                       return false;
+                   }
+            } else {
+                return false;
             }
-            return false;
-
+        }
     }
 
 

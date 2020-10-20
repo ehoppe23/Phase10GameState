@@ -11,6 +11,7 @@ public class Card {
         this.color = c;
     }
 
+
     public void setNumber(int n){
         this.number = n;
     }
@@ -56,5 +57,7 @@ public class Card {
             }
             return color + " " + this.getNumber();
         }
+
     }
+
 }
