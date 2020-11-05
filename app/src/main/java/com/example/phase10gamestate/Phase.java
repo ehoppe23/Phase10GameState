@@ -23,6 +23,8 @@ public class Phase {
     private String Phase9 = "1 set of 5 and 1 set of 2";
     private String Phase10 = "1 set of 5 and 1 set of 3";
 
+    //Phase reqs are placed in these variables when phasing happens
+
     //Player 1
     Card[] play1Run;
     Card[] play1Set1;
@@ -34,13 +36,18 @@ public class Phase {
     Card[] play2Set1;
     Card[] play2Set2;
     Card[] play2Color;
-    //Are placed in these variables when phasing happens
+
 
     //needs constructor
 
     /** checks if the play can play a phase, first by seeing what phase
      * the player is on, then by referencing two different methods that checks
-     * each card to make sure the play can hit */
+     * each card to make sure the play can hit
+     * @param playerPhase the phase the player is currently on
+     * @param phaseContent the cards the player is trying to phase with
+     * @param playerNum the player's ID number
+     *
+     */
     public boolean checkPhase(int playerPhase, ArrayList<Card> phaseContent, int playerNum) {
         Card[] sorted = sortCards(phaseContent);
         switch (playerPhase) {
@@ -347,13 +354,18 @@ public class Phase {
      * @param setNum 1 or 2 based on if this is the first or second set
      * @return null if unsuccessful, the extra cards if successful and cards are leftover, or the set if no extra cards
      */
-    public Card[] isSet(Card[] checkForSet, int size, int playerNum, int setNum){
-        Card[] temp = new Card[size];
-        Card[] notInSet = new Card[checkForSet.length-size];
-        int notInSetLoc = 0;
-        int tempLoc = 0;
+    private Card[] isSet(Card[] checkForSet, int size, int playerNum, int setNum){
+        Card[] temp;
+        Card[] notInSet;
+        int notInSetLoc;
+        int tempLoc;
         for(int i = 0; i<checkForSet.length; i++) {
+            //Reset temp
+            temp = new Card[size];
             temp[0] = checkForSet[i];
+            tempLoc = 0;
+            notInSet = new Card[checkForSet.length-size];
+            notInSetLoc = 0;
             for (int j = i + 1; j < checkForSet.length; j++) {
 
                 if (checkForSet[j].getNumber() == temp[tempLoc].getNumber()) {
@@ -413,15 +425,19 @@ public class Phase {
      * @param playerNum the number of the player that is phasing
      * @return null if unsuccessful, the extra cards if successful and cards are leftover, or the set if no extra cards
      */
-    public Card[] isRun(Card[] checkForRun, int size, int playerNum){
-        Card[] temp = new Card[size];
-        Card[] notInRun = new Card[checkForRun.length-size];
-        int notInRunLoc = 0;
-        int tempLoc = 0;
+    private Card[] isRun(Card[] checkForRun, int size, int playerNum){
+        Card[] temp;
+        Card[] notInRun;
+        int notInRunLoc;
+        int tempLoc;
         for(int i = 0; i<checkForRun.length; i++) {
+            //Reset temp
+            temp = new Card[size];
             temp[0] = checkForRun[i];
+            tempLoc = 0;
+            notInRun = new Card[checkForRun.length-size];
+            notInRunLoc = 0;
             for (int j = i + 1; j < checkForRun.length; j++) {
-
                 if (checkForRun[j].getNumber() == temp[tempLoc].getNumber() + 1) {
                     temp[tempLoc + 1] = checkForRun[j];
                     tempLoc++;
@@ -463,13 +479,18 @@ public class Phase {
      * @param playerNum the number of the player that is phasing
      * @return null if unsuccessful, the extra cards if successful and cards are leftover, or the set if no extra cards
      */
-    public Card[] isColorGroup(Card[] checkForColor, int size, int playerNum){
-        Card[] temp = new Card[size];
-        Card[] notInColor = new Card[checkForColor.length-size];
-        int notInColorLoc = 0;
-        int tempLoc = 0;
+    private Card[] isColorGroup(Card[] checkForColor, int size, int playerNum){
+        Card[] temp;
+        Card[] notInColor;
+        int notInColorLoc;
+        int tempLoc;
         for(int i = 0; i<checkForColor.length; i++) {
+            //Reset temp
+            temp = new Card[size];
             temp[0] = checkForColor[i];
+            tempLoc = 0;
+            notInColor = new Card[checkForColor.length-size];
+            notInColorLoc = 0;
             for (int j = i + 1; j < checkForColor.length; j++) {
 
                 if (checkForColor[j].getColor() == temp[tempLoc].getColor()) {
@@ -510,7 +531,7 @@ public class Phase {
      * @param attempt the cards attempting to be phased
      * @return the sorted card array
      */
-    public Card[] sortCards(ArrayList<Card> attempt){
+    private Card[] sortCards(ArrayList<Card> attempt){
         Card[] arr = new Card[attempt.size()];
         int x = 0;
         while(x<attempt.size()){
@@ -558,7 +579,7 @@ public class Phase {
                     tempPlay1Set1[i] = play1Set1[i];
                 }
                 tempPlay1Set1[play1Set1.length] = selectedCard;
-                if(!(isSet(tempPlay1Set1, tempPlay1Set1.length, playerNum,1)==null)) return true;
+                if(!(isSet(tempPlay1Set1, tempPlay1Set1.length, playerNum,1) == null)) return true;
             }
             if(this.play1Set2 != null) {
                 Card[] tempPlay1Set2 = new Card[play1Set2.length + 1];
@@ -566,7 +587,7 @@ public class Phase {
                     tempPlay1Set2[i] = play1Set2[i];
                 }
                 tempPlay1Set2[play1Set2.length] = selectedCard;
-                if(!(isSet(tempPlay1Set2, tempPlay1Set2.length, playerNum, 2)==null)) return true;
+                if(!(isSet(tempPlay1Set2, tempPlay1Set2.length, playerNum, 2)== null)) return true;
             }
 
 

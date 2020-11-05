@@ -29,7 +29,7 @@ public class Phase10GameState {
     private int player1Phase; //Standard is 10 phases, optional: set different phases for game
     private int player2Phase;
     private int hasGoneOut; //set to zero until a player goes out, then set to player Id
-    Phase phase = new Phase();
+    private Phase phase = new Phase();
 
     //Setters
     public void setTurnId(int turnId) {
@@ -160,6 +160,8 @@ public class Phase10GameState {
     public boolean getPlayer2HasPhased() {
         return this.player2HasPhased;
     }
+
+    public Phase getPhase(){ return this.phase; }
 
     /**
      * Constructor - Initializes variables with 0/null values
@@ -340,6 +342,7 @@ public class Phase10GameState {
     /**
      * attempts to play a phase and
      * @param playerNum the player who is trying to play a phase
+     * @param phaseContent the cards that are trying to be phased
      * @return if phasing was successful
      */
     public boolean playPhase(int playerNum, ArrayList<Card> phaseContent) {
