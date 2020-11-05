@@ -169,7 +169,7 @@ public class Phase10GameState {
      */
     public Phase10GameState() {
         turnId = 0;
-        hasGoneOut = 0;
+        hasGoneOut = -1;
         goesFirst = 0;
         playerHasDrawn = false;
         player1HasPhased = false;
