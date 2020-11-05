@@ -222,19 +222,50 @@ public class Phase10GameState {
         this.setTurnId(PhaseGS.getTurnId());
         this.setHasGoneOut(PhaseGS.getHasGoneOut());
         this.setGoesFirst(PhaseGS.getGoesFirst());
-        this.setDiscardPile(PhaseGS.getDiscardPile());
-        this.setDrawPile(PhaseGS.getDrawPile());
         this.setPlayerHasDrawn(PhaseGS.getPlayerHasDrawn());
-        this.setPlayer1Hand(PhaseGS.getPlayer1Hand());
-        this.setPlayer2Hand(PhaseGS.getPlayer2Hand());
         this.setPlayer1HasPhased(PhaseGS.getPlayer1HasPhased());
         this.setPlayer2HasPhased(PhaseGS.getPlayer2HasPhased());
         this.setPlayer1Score(PhaseGS.getPlayer1Score());
         this.setPlayer2Score(PhaseGS.getPlayer2Score());
         this.setPlayer1Phase(PhaseGS.getPlayer1Phase());
         this.setPlayer2Phase(PhaseGS.getPlayer2Phase());
-        this.setPlayer1PhaseContent(PhaseGS.getPlayer1PhaseContent());
-        this.setPlayer2PhaseContent(PhaseGS.getPlayer2PhaseContent());
+
+        //set all array lists and stacks using for each loops
+        Stack<Card> temp = new Stack<Card>();
+        for(Card c : PhaseGS.getDiscardPile()){
+            temp.push(c);
+        }
+        this.setDiscardPile(temp);
+
+        ArrayList<Card> temp1 = new ArrayList<Card>();
+        for(Card c : PhaseGS.getDrawPile()){
+            temp1.add(c);
+        }
+        this.setDrawPile(temp1);
+
+        ArrayList<Card> temp3 = new ArrayList<Card>();
+        for(Card c : PhaseGS.getPlayer1Hand()){
+            temp3.add(c);
+        }
+        this.setPlayer1Hand(temp3);
+
+        ArrayList<Card> temp4 = new ArrayList<Card>();
+        for(Card c : PhaseGS.getPlayer2Hand()){
+            temp4.add(c);
+        }
+        this.setPlayer2Hand(temp4);
+
+        ArrayList<Card> temp5 = new ArrayList<Card>();
+        for(Card c : PhaseGS.getPlayer1PhaseContent()){
+            temp5.add(c);
+        }
+        this.setPlayer1PhaseContent(temp5);
+
+        ArrayList<Card> temp6 = new ArrayList<Card>();
+        for(Card c : PhaseGS.getPlayer2PhaseContent()){
+            temp6.add(c);
+        }
+        this.setPlayer2PhaseContent(temp6);
     }
 
     /**
