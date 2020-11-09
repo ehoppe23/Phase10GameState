@@ -52,6 +52,7 @@ public class Phase {
         Card[] sorted = sortCards(phaseContent);
         switch (playerPhase) {
             case 1:
+
                 return checkIfPhaseOne(sorted, playerNum);
             case 2:
                 return checkIfPhaseTwo(sorted, playerNum);
@@ -66,6 +67,7 @@ public class Phase {
             case 7:
                 return checkIfPhaseSeven(sorted, playerNum);
             case 8: //Special Boy - 7 cards of 1 color
+                sorted = sortCardsByColor(phaseContent);
                 if(isColorGroup(sorted, 7,playerNum) != null) return true;
                 else return false;
             case 9:
@@ -263,7 +265,7 @@ public class Phase {
      */
     public boolean checkIfPhaseSeven(Card[] phaseContent, int playerNum){
         if(isSet(phaseContent,4, playerNum,1) != null) {
-            Card[] temp = isSet(phaseContent,3, playerNum,1); //Check for set 1
+            Card[] temp = isSet(phaseContent,4, playerNum,1); //Check for set 1
 
             if(isSet(temp,4,playerNum,2) != null){ //Check for set 2
 
@@ -322,7 +324,7 @@ public class Phase {
      */
     public boolean checkIfPhaseTen(Card[] phaseContent, int playerNum){
         if(isSet(phaseContent,5, playerNum,1) != null) {
-            Card[] temp = isSet(phaseContent,3, playerNum,1); //Check for set 1
+            Card[] temp = isSet(phaseContent,5, playerNum,1); //Check for set 1
 
             if(isSet(temp,3,playerNum,2) != null){ //Check for set 2
 
@@ -359,7 +361,7 @@ public class Phase {
         Card[] notInSet;
         int notInSetLoc;
         int tempLoc;
-        for(int i = 0; i<checkForSet.length; i++) {
+        for(int i = 0; i < checkForSet.length; i++) {
             //Reset temp
             temp = new Card[size];
             temp[0] = checkForSet[i];
@@ -367,13 +369,11 @@ public class Phase {
             notInSet = new Card[checkForSet.length-size];
             notInSetLoc = 0;
             for (int j = i + 1; j < checkForSet.length; j++) {
-
                 if (checkForSet[j].getNumber() == temp[tempLoc].getNumber()) {
                     temp[tempLoc + 1] = checkForSet[j];
                     tempLoc++;
                 } else {
                     if(notInSet.length > 0) {
-
                         notInSet[notInSetLoc] = checkForSet[j];
                         notInSetLoc++;
                     }
@@ -381,6 +381,12 @@ public class Phase {
             }
                 if(tempLoc >= temp.length -1){
                     if(playerNum == 1) {
+                        for(int b = 0; b < i; b++){
+                            while(notInSetLoc < notInSet.length) {
+                                notInSet[notInSetLoc] = checkForSet[b];
+                                notInSetLoc++;
+                            }
+                        }
                         if(setNum == 1){
                             this.play1Set1 = temp;
                             if(notInSetLoc == 0){
@@ -398,6 +404,12 @@ public class Phase {
 
                     }
                     else if(playerNum == 2){
+                        for(int b = 0; b < i; b++){
+                            while(notInSetLoc < notInSet.length) {
+                                notInSet[notInSetLoc] = checkForSet[b];
+                                notInSetLoc++;
+                            }
+                        }
                         if(setNum == 1){
                             this.play2Set1 = temp;
                             if(notInSetLoc == 0){
@@ -547,7 +559,7 @@ public class Phase {
     private Card[] sortCards(ArrayList<Card> attempt){
         Card[] arr = new Card[attempt.size()];
         int x = 0;
-        while(x<attempt.size()){
+        while(x < attempt.size()){
             arr[x] = attempt.get(x);
             x++;
         }
@@ -564,6 +576,34 @@ public class Phase {
         }
         return arr;
     }
+
+    /**
+     * sortCards sorts the cards by color instead of number
+     *
+     * @param attempt the cards attempting to be phased
+     * @return the sorted card array
+     */
+    private Card[] sortCardsByColor(ArrayList<Card> attempt){
+        Card[] arr = new Card[attempt.size()];
+        int x = 0;
+        while(x < attempt.size()){
+            arr[x] = attempt.get(x);
+            x++;
+        }
+        for (int i = 0; i < arr.length - 1; i++){
+            int index = i;
+            for (int j = i + 1; j < arr.length; j++){
+                if (arr[j].getColor() < arr[index].getColor()) {
+                    index = j; //searching for lowest index
+                }
+            }
+            Card smallestNumberCard = arr[index];
+            arr[index] = arr[i];
+            arr[i] = smallestNumberCard;
+        }
+        return arr;
+    }
+
 
     /**
      * checkHitValid checks if the selected card is valid
