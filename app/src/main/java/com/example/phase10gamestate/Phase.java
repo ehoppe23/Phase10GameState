@@ -390,7 +390,7 @@ public class Phase {
         Card[] notInSet;
         int notInSetLoc;
         int tempLoc;
-        for(int i = 0; i<checkForSet.length; i++) {
+        for(int i = 0; i < checkForSet.length; i++) {
             //Reset temp
             temp = new Card[size];
             temp[0] = checkForSet[i];
@@ -403,10 +403,7 @@ public class Phase {
                     temp[tempLoc + 1] = checkForSet[j];
                     tempLoc++;
                 } else {
-
                     if(notInSet.length > 0) {
-
-
                        if(notInSetLoc < notInSet.length) {
                            notInSet[notInSetLoc] = checkForSet[j];
                              notInSetLoc++;
@@ -415,11 +412,8 @@ public class Phase {
                            return null;
                        }
                     }
-
-
                 }
             }
-
                 if(tempLoc >= temp.length -1){
                     if(playerNum == 1) {
                         for(int b = 0; b < i; b++){
@@ -500,7 +494,6 @@ public class Phase {
                     temp[tempLoc + 1] = checkForRun[j];
                     tempLoc++;
                 } else {
-
                     if(notInRun.length > 0) {
 
 
@@ -562,7 +555,7 @@ public class Phase {
      * @param playerNum the number of the player that is phasing
      * @return null if unsuccessful, the extra cards if successful and cards are leftover, or the set if no extra cards
      */
-    public Card[] isColorGroup(Card[] checkForColor, int size, int playerNum){
+    private Card[] isColorGroup(Card[] checkForColor, int size, int playerNum){
         Card[] temp;
         Card[] notInColor;
         int notInColorLoc;
@@ -640,7 +633,7 @@ public class Phase {
     public Card[] sortCards(ArrayList<Card> attempt){
         Card[] arr = new Card[attempt.size()];
         int x = 0;
-        while(x<attempt.size()){
+        while(x < attempt.size()){
             arr[x] = attempt.get(x);
             x++;
         }
