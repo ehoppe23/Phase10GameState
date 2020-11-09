@@ -17,62 +17,54 @@ import edu.up.cs301.game.infoMsg.GameState;
 
 public class Phase10LocalGame extends LocalGame {
 
+    /* @author Kirsten Foster, Alexis Molina, Emily Hoppe, Grace Penunuri
+*/
+    private Phase10GameState pgs;
+
     /**
-     * class PigLocalGame controls the play of the game
-     *
-     * @author Andrew M. Nuxoll, modified by Steven R. Vegdahl
-     * @version February 2016
+     * This ctor creates a new game state
      */
-        private Phase10GameState pgs;
-        /**
-         * This ctor creates a new game state
-         */
-        public Phase10LocalGame() {
-            this.pgs = new Phase10GameState();
-        }
+    public Phase10LocalGame() {
+        this.pgs = new Phase10GameState();
+    }
 
-        /**
-         * can the player with the given id take an action right now?
-         */
-        @Override
-        protected boolean canMove(int playerIdx) {
-            if(playerIdx == this.pgs.getPlayerTurn()) {
-                return true;
-            } else {
-                return false;
-            }
-
-        }
-
-        /**
-         * This method is called when a new action arrives from a player
-         *
-         * @return true if the action was taken or false if the action was invalid/illegal.
-         */
-        @Override
-        protected boolean makeMove(GameAction action) {
-            if (action instanceof phaseAction){
-                int t = this.pgs.getPlayerTurn();
-                if (t == 1){
-                    this.pgs.setPlayer1Score(this.pgs.getPlayer1Score());
-                }
-                else if(t == 2){
-                    this.pgs.setPlayer2Score(this.pgs.getPlayer2Score());
-                }
-
-                if (this.playerNames.length != 1){
-                    //if t == 1, set t = 0, and vice versa
-                    this.pgs.setPlayerTurn((t+1)%2);
-                }
-                return true;
-            }
-            else if(action instanceof discardAction)
-
-                return true;
-            }
-
+    /**
+     * can the player with the given id take an action right now?
+     */
+    @Override
+    protected boolean canMove(int playerIdx) {
+        if (playerIdx == this.pgs.getPlayerTurn()) {
+            return true;
+        } else {
             return false;
-        }//makeMove
+        }
+
+    }
+
+    /**
+     * This method is called when a new action arrives from a player
+     *
+     * @return true if the action was taken or false if the action was invalid/illegal.
+     */
+    @Override
+    protected boolean makeMove(GameAction action) {
+        if (action instanceof PhaseAction) {
+            this.pgs.playPhase(this.pgs.getTurnID(), PhaseAction.getPhaseContent());
+            return true;
+        } else if (action instanceof DiscardAction) {
+            this.pgs.discard(this.pgs.getTurnID(), DiscardAction.getCard());
+            return true;
+        } else if (action instanceof HitAction) {
+            this.pgs.hit(this.pgs.getTurnID(), HitAction.getCard());
+            return true;
+        } else if (action instanceof DrawFaceDownAction) {
+            this.pgs.drawFaceDown(this.pgs.getTurnID());
+            return true;
+        } else if (action instanceof DrawFaceUpAction) {
+            this.pgs.drawFaceUpAction(this.pgs.getTurnID());
+            return false;
+        }
+    }//makeMove
         /**
          * send the updated state to a given player
          */

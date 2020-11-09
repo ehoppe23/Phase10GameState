@@ -14,14 +14,19 @@ import edu.up.cs301.game.Game;
 import edu.up.cs301.game.GamePlayer;
 import edu.up.cs301.game.actionMsg.GameAction;
 
-public class drawFaceDownAction extends GameAction {
-
+public class PhaseAction extends GameAction {
+private ArrayList<Card> phaseContent;
     /**
      * constructor for GameAction
      *
      * @param player the player who created the action
      */
-    public drawFaceDownAction(GamePlayer player) {
+    public PhaseAction(GamePlayer player, ArrayList<Card> phaseContent) {
         super(player);
+        this.phaseContent=phaseContent;
+
     }
+  public ArrayList<Card>  getPhaseContent() {
+        return phaseContent;
+  }
 }

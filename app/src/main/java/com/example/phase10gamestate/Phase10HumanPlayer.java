@@ -23,13 +23,9 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.view.View.OnClickListener;
 
-/**
- * A GUI for a human to play Pig. This default version displays the GUI but is incomplete
- *
- *
- * @author Andrew M. Nuxoll, modified by Steven R. Vegdahl
- * @version February 2016
+/** @author Kirsten Foster, Alexis Molina, Emily Hoppe, Grace Penunuri
  */
+
 public class Phase10HumanPlayer extends GameHumanPlayer implements OnClickListener {
 
     /* instance variables */
@@ -70,7 +66,7 @@ public class Phase10HumanPlayer extends GameHumanPlayer implements OnClickListen
      * callback method when we get a message (e.g., from the game)
      *
      * @param info
-     * 		the message
+     * 	the message
      */
     @Override
     public void receiveInfo(GameInfo info) {
@@ -78,15 +74,6 @@ public class Phase10HumanPlayer extends GameHumanPlayer implements OnClickListen
             flash(Color.RED, 500);
             return;
         }
-
-        if (((PigGameState) info).getPlayerTurn() == 1){
-            playerScoreTextView.setText(String.valueOf(((Phase10GameState) info).getPlayer1Score()));
-            oppScoreTextView.setText(String.valueOf(((Phase10GameState) info).getPlayer2Score()));
-        }
-        else{
-            playerScoreTextView.setText(String.valueOf(((Phase10GameState) info).getPlayer2Score()));
-            oppScoreTextView.setText(String.valueOf(((Phase10GameState) info).getPlayer1Score()));
-
         //TO DO should phase counters be here??
     }//receiveInfo
 
@@ -100,15 +87,15 @@ public class Phase10HumanPlayer extends GameHumanPlayer implements OnClickListen
      */
     public void onClick(View button) {
         if(button.equals(phaseButton)) {
-            phaseAction p = new phaseAction(this);
+            PhaseAction p = new PhaseAction(this);
             game.sendAction(p);
         }
         if(button.equals(hitButton)) {
-            hitAction p = new hitAction(this);
+            HitAction p = new HitAction(this);
             game.sendAction(p);
         }
         if(button.equals(discardButton)) {
-            discardAction p = new discardAction(this);
+            DiscardAction p = new DiscardAction(this);
             game.sendAction(p);
         }
 
@@ -116,11 +103,11 @@ public class Phase10HumanPlayer extends GameHumanPlayer implements OnClickListen
         // onClick area be fixed like drawPile area is??
 
         if(button.equals(drawFaceDownImageButton)) {
-            drawFaceDownAction p = new drawFaceDownAction(this);
+            DrawFaceDownAction p = new DrawFaceDownAction(this);
             game.sendAction(p);
         }
         if(button.equals(drawFaceUpImageButton)) {
-            drawFaceUpAction p = new drawFaceUpAction(this);
+            DrawFaceUpAction p = new DrawFaceUpAction(this);
             game.sendAction(p);
         }
     }// onClick
@@ -141,16 +128,18 @@ public class Phase10HumanPlayer extends GameHumanPlayer implements OnClickListen
         activity.setContentView(R.layout.Phase10_layout);
 
         //Initialize the widget reference member variables
-        this.playerScoreTextView = (TextView)activity.findViewById(R.id.yourScoreValue);
-        this.oppScoreTextView    = (TextView)activity.findViewById(R.id.oppScoreValue);
-        this.turnTotalTextView   = (TextView)activity.findViewById(R.id.turnTotalValue);
-        this.messageTextView     = (TextView)activity.findViewById(R.id.messageTextView);
-        this.dieImageButton      = (ImageButton)activity.findViewById(R.id.phaseButton);
-        this.holdButton          = (Button)activity.findViewById(R.id.hitButton);
+        this.drawFaceUpImageButton= (ImageButton)activity.findViewById(R.id.phaseButton);
+        this.drawFaceDownImageButton= (ImageButton)activity.findViewById(R.id.phaseButton);
+        this.hitButton= (Button)activity.findViewById(R.id.hitButton);
+        this.phaseButton= (Button)activity.findViewById(R.id.phaseButton);
+        this.discardButton= (Button)activity.findViewById(R.id.discardButton);
 
         //Listen for button presses
-        dieImageButton.setOnClickListener(this);
-        holdButton.setOnClickListener(this);
+        drawFaceUpImageButton.setOnClickListener(this);
+        drawFaceDownImageButton.setOnClickListener(this);
+        hitButton.setOnClickListener(this);
+        phaseButton.setOnClickListener(this);
+        discardButton.setOnClickListener(this);
 
     }//setAsGui
 

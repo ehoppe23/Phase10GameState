@@ -14,14 +14,19 @@ import edu.up.cs301.game.Game;
 import edu.up.cs301.game.GamePlayer;
 import edu.up.cs301.game.actionMsg.GameAction;
 
-public class drawFaceUpAction extends GameAction {
+public class HitAction extends GameAction {
 
     /**
      * constructor for GameAction
      *
      * @param player the player who created the action
      */
-    public drawFaceUpAction(GamePlayer player) {
+    public HitDownAction(GamePlayer player, Card card) {
         super(player);
+        this.card = card;
+    }
+
+    public Card getCard() {
+        return card;
     }
 }
