@@ -52,25 +52,56 @@ public class Phase {
         Card[] sorted = sortCards(phaseContent);
         switch (playerPhase) {
             case 1:
+                if(sorted.length != 6){
+                    return false;
+                }
                 return checkIfPhaseOne(sorted, playerNum);
             case 2:
+                if(sorted.length != 7){
+                    return false;
+                }
                 return checkIfPhaseTwo(sorted, playerNum);
             case 3:
+                if(sorted.length != 8){
+                    return false;
+                }
                 return checkIfPhaseThree(sorted, playerNum);
             case 4:
+                if(sorted.length != 7){
+                    return false;
+                }
                 return checkIfPhaseFour(sorted, playerNum);
             case 5:
+                if(sorted.length != 8){
+                    return false;
+                }
                 return checkIfPhaseFive(sorted, playerNum);
             case 6:
+                if(sorted.length != 9){
+                    return false;
+                }
                 return checkIfPhaseSix(sorted, playerNum);
             case 7:
+                if(sorted.length != 8){
+                    return false;
+                }
                 return checkIfPhaseSeven(sorted, playerNum);
             case 8: //Special Boy - 7 cards of 1 color
+                sorted = sortCardsByColor(phaseContent);
+                if(sorted.length != 7){
+                    return false;
+                }
                 if(isColorGroup(sorted, 7,playerNum) != null) return true;
                 else return false;
             case 9:
+                if(sorted.length != 7){
+                    return false;
+                }
                 return checkIfPhaseNine(sorted, playerNum);
             case 10:
+                if(sorted.length != 8){
+                    return false;
+                }
                 return checkIfPhaseTen(sorted, playerNum);
             default:
                 return false;
@@ -263,7 +294,7 @@ public class Phase {
      */
     public boolean checkIfPhaseSeven(Card[] phaseContent, int playerNum){
         if(isSet(phaseContent,4, playerNum,1) != null) {
-            Card[] temp = isSet(phaseContent,3, playerNum,1); //Check for set 1
+            Card[] temp = isSet(phaseContent,4, playerNum,1); //Check for set 1
 
             if(isSet(temp,4,playerNum,2) != null){ //Check for set 2
 
@@ -293,7 +324,7 @@ public class Phase {
     public boolean checkIfPhaseNine(Card[] phaseContent, int playerNum){
 
         if(isSet(phaseContent,5, playerNum,1) != null) {
-            Card[] temp = isSet(phaseContent,3, playerNum,1); //Check for set 1
+            Card[] temp = isSet(phaseContent,5, playerNum,1); //Check for set 1
 
             if(isSet(temp,2,playerNum,2) != null){ //Check for set 2
 
@@ -322,7 +353,7 @@ public class Phase {
      */
     public boolean checkIfPhaseTen(Card[] phaseContent, int playerNum){
         if(isSet(phaseContent,5, playerNum,1) != null) {
-            Card[] temp = isSet(phaseContent,3, playerNum,1); //Check for set 1
+            Card[] temp = isSet(phaseContent,5, playerNum,1); //Check for set 1
 
             if(isSet(temp,3,playerNum,2) != null){ //Check for set 2
 
@@ -335,7 +366,7 @@ public class Phase {
                     this.play2Run = null;
                     this.play2Color = null;
                 }
-                if(isSet(temp,2,playerNum,2) == temp) return true;//make sure no cards are left
+                if(isSet(temp,3,playerNum,2) == temp) return true;//make sure no cards are left
             }
         }
         return false;
@@ -366,21 +397,37 @@ public class Phase {
             tempLoc = 0;
             notInSet = new Card[checkForSet.length-size];
             notInSetLoc = 0;
-            for (int j = i + 1; j < checkForSet.length; j++) {
+            for (int j = i+1; j < checkForSet.length; j++) {
 
                 if (checkForSet[j].getNumber() == temp[tempLoc].getNumber()) {
                     temp[tempLoc + 1] = checkForSet[j];
                     tempLoc++;
                 } else {
+
                     if(notInSet.length > 0) {
 
-                        notInSet[notInSetLoc] = checkForSet[j];
-                        notInSetLoc++;
+
+                       if(notInSetLoc < notInSet.length) {
+                           notInSet[notInSetLoc] = checkForSet[j];
+                             notInSetLoc++;
+                       }
+                       else{
+                           return null;
+                       }
                     }
+
+
                 }
             }
+
                 if(tempLoc >= temp.length -1){
                     if(playerNum == 1) {
+                        for(int b = 0; b < i; b++){
+                            while(notInSetLoc < notInSet.length) {
+                                notInSet[notInSetLoc] = checkForSet[b];
+                                notInSetLoc++;
+                            }
+                        }
                         if(setNum == 1){
                             this.play1Set1 = temp;
                             if(notInSetLoc == 0){
@@ -398,6 +445,12 @@ public class Phase {
 
                     }
                     else if(playerNum == 2){
+                        for(int b = 0; b < i; b++){
+                            while(notInSetLoc < notInSet.length) {
+                                notInSet[notInSetLoc] = checkForSet[b];
+                                notInSetLoc++;
+                            }
+                        }
                         if(setNum == 1){
                             this.play2Set1 = temp;
                             if(notInSetLoc == 0){
@@ -447,15 +500,30 @@ public class Phase {
                     temp[tempLoc + 1] = checkForRun[j];
                     tempLoc++;
                 } else {
+
                     if(notInRun.length > 0) {
-                        notInRun[notInRunLoc] = checkForRun[j];
-                        notInRunLoc++;
+
+
+                        if(notInRunLoc < notInRun.length) {
+                            notInRun[notInRunLoc] = checkForRun[j];
+                            notInRunLoc++;
+                        }
+                        else{
+                            return null;
+                        }
                     }
                 }
 
             }
             if(tempLoc >= temp.length -1){
                     if(playerNum == 1) {
+
+                        for(int b = 0; b < i; b++){
+                            while(notInRunLoc < notInRun.length) {
+                                notInRun[notInRunLoc] = checkForRun[b];
+                                notInRunLoc++;
+                            }
+                        }
                         this.play1Run = temp;
                         if(notInRunLoc == 0){
                             return checkForRun;
@@ -463,6 +531,12 @@ public class Phase {
                         return notInRun;
                     }
                     else if(playerNum == 2){
+                        for(int b = 0; b < i; b++){
+                            while(notInRunLoc < notInRun.length) {
+                                notInRun[notInRunLoc] = checkForRun[b];
+                                notInRunLoc++;
+                            }
+                        }
                         this.play2Run = temp;
                         if(notInRunLoc == 0){
                             return checkForRun;
@@ -488,7 +562,7 @@ public class Phase {
      * @param playerNum the number of the player that is phasing
      * @return null if unsuccessful, the extra cards if successful and cards are leftover, or the set if no extra cards
      */
-    private Card[] isColorGroup(Card[] checkForColor, int size, int playerNum){
+    public Card[] isColorGroup(Card[] checkForColor, int size, int playerNum){
         Card[] temp;
         Card[] notInColor;
         int notInColorLoc;
@@ -506,15 +580,28 @@ public class Phase {
                     temp[tempLoc + 1] = checkForColor[j];
                     tempLoc++;
                 } else {
-                    if(notInColor.length>0) {
-                        notInColor[notInColorLoc] = checkForColor[j];
-                        notInColorLoc++;
+                    if(notInColor.length > 0) {
+
+
+                        if(notInColorLoc < notInColor.length) {
+                            notInColor[notInColorLoc] = checkForColor[j];
+                            notInColorLoc++;
+                        }
+                        else{
+                            return null;
+                        }
                     }
                 }
 
             }
             if(tempLoc >= temp.length -1){
                     if(playerNum == 1) {
+                        for(int b = 0; b < i; b++){
+                            while(notInColorLoc < notInColor.length) {
+                                notInColor[notInColorLoc] = checkForColor[b];
+                                notInColorLoc++;
+                            }
+                        }
                         this.play1Color = temp;
                         if(notInColorLoc == 0){
                             return checkForColor;
@@ -522,6 +609,12 @@ public class Phase {
                         return notInColor;
                     }
                     else if(playerNum == 2){
+                        for(int b = 0; b < i; b++){
+                            while(notInColorLoc < notInColor.length) {
+                                notInColor[notInColorLoc] = checkForColor[b];
+                                notInColorLoc++;
+                            }
+                        }
                         this.play2Color = temp;
                         if(notInColorLoc == 0){
                             return checkForColor;
@@ -544,7 +637,7 @@ public class Phase {
      * @param attempt the cards attempting to be phased
      * @return the sorted card array
      */
-    private Card[] sortCards(ArrayList<Card> attempt){
+    public Card[] sortCards(ArrayList<Card> attempt){
         Card[] arr = new Card[attempt.size()];
         int x = 0;
         while(x<attempt.size()){
@@ -564,6 +657,34 @@ public class Phase {
         }
         return arr;
     }
+    /**
+     * sortCards sorts the cards by color instead of number
+     *
+     * @param attempt the cards attempting to be phased
+     * @return the sorted card array
+     */
+    private Card[] sortCardsByColor(ArrayList<Card> attempt){
+        Card[] arr = new Card[attempt.size()];
+        int x = 0;
+        while(x < attempt.size()){
+            arr[x] = attempt.get(x);
+            x++;
+        }
+        for (int i = 0; i < arr.length - 1; i++){
+            int index = i;
+            for (int j = i + 1; j < arr.length; j++){
+                if (arr[j].getColor() < arr[index].getColor()) {
+                    index = j; //searching for lowest index
+                }
+            }
+            Card smallestNumberCard = arr[index];
+            arr[index] = arr[i];
+            arr[i] = smallestNumberCard;
+        }
+        return arr;
+    }
+
+
 
     /**
      * checkHitValid checks if the selected card is valid
