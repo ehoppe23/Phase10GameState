@@ -4,10 +4,8 @@
  */
 package com.example.phase10gamestate;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.Stack;
 
 public class Phase10GameState {
@@ -29,7 +27,7 @@ public class Phase10GameState {
     private int player1Phase; //Standard is 10 phases, optional: set different phases for game
     private int player2Phase;
     private int hasGoneOut; //set to zero until a player goes out, then set to player Id
-    private Phase phase = new Phase();
+    public Phase phase = new Phase();
 
     //Setters
     public void setTurnId(int turnId) {
@@ -325,12 +323,31 @@ public class Phase10GameState {
      *
      * @param playerId id of the player attempting to discard, this param could be replaced by a player object later on,
      *                 in which case a .getId() call would be added to the method
-     * @param cardLoc  the location in player hand of the card being discarded
+     * @param card the card being discarded
      * @return true if the action was successful, else will return false
      */
-    public boolean discard(int playerId, int cardLoc) {
+    public boolean discard(int playerId, Card card) {
 
-        if (playerId != this.turnId || this.hasGoneOut == playerId || cardLoc < 0) return false;
+        if (playerId != this.turnId || this.hasGoneOut == playerId) return false;
+        int cardLoc = 0;
+        boolean notFound = true;
+        while (notFound) {
+            if (playerId == 1) {
+                for (int i = 0; i < this.player1Hand.size(); i++) {
+                    if (card.equals(this.player1Hand.get(i))) {
+                        cardLoc = i;
+                        notFound = false;
+                    }
+                }
+            } else if (playerId == 2) {
+                for (int i = 0; i < this.player2Hand.size(); i++) {
+                    if (card.equals(this.player2Hand.get(i))) {
+                        cardLoc = i;
+                        notFound = false;
+                    }
+                }
+            } else return false;
+        }
 
         //determine which player is discarding
         if (playerId == 1) {
@@ -418,7 +435,7 @@ public class Phase10GameState {
             if (hitOnPlayer != playerNum) { //if this is false in a 2 player game, player is hitting on opposite player phase
                 if (playerNum == 1 && player1HasPhased) {
                     if (player2HasPhased) {
-                        if (phase.checkHitValid(selectedCard, player1PhaseContent, playerNum)) {
+                        if (phase.checkHitValid(selectedCard, hitOnPlayer, false)) {
                             player2PhaseContent.add(selectedCard);
                             player1Hand.remove(selectedCard);
                             return true;
@@ -426,7 +443,7 @@ public class Phase10GameState {
                     }
                 } else if (playerNum == 2 && player2HasPhased) {
                     if (player1HasPhased) {
-                        if (phase.checkHitValid(selectedCard, player2PhaseContent, playerNum)) {
+                        if (phase.checkHitValid(selectedCard, hitOnPlayer, false)) {
                             player1PhaseContent.add(selectedCard);
                             player2Hand.remove(selectedCard);
                             return true;
@@ -436,7 +453,7 @@ public class Phase10GameState {
             }else if (hitOnPlayer == playerNum) { // if hitOnPlayer is the same as playerNum then the player hits on their own phaseContext
                     if (playerNum == 1) {
                         if (player1HasPhased) {
-                            if (phase.checkHitValid(selectedCard, player1PhaseContent, playerNum)) {
+                            if (phase.checkHitValid(selectedCard, hitOnPlayer, false)) {
                                 player1PhaseContent.add(selectedCard);
                                 player1Hand.remove(selectedCard);
                                 return true;
@@ -445,7 +462,7 @@ public class Phase10GameState {
                     }
                     if (playerNum == 2) {
                         if (player2HasPhased) {
-                            if (phase.checkHitValid(selectedCard, player2PhaseContent, playerNum)) {
+                            if (phase.checkHitValid(selectedCard, hitOnPlayer, false)) {
                                 player2PhaseContent.add(selectedCard);
                                 player2Hand.remove(selectedCard);
                                 return true;

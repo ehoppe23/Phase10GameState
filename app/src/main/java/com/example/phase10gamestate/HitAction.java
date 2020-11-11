@@ -15,15 +15,17 @@ import edu.up.cs301.game.GamePlayer;
 import edu.up.cs301.game.actionMsg.GameAction;
 
 public class HitAction extends GameAction {
-
+    private Card card;
+    private int hitOn;
     /**
      * constructor for GameAction
      *
      * @param player the player who created the action
      */
-    public HitDownAction(GamePlayer player, Card card) {
+    public HitDownAction(GamePlayer player, Card card, int hitOn) {
         super(player);
         this.card = card;
+        this.hitOn = hitOn;
     }
 
     public Card getCard() {
