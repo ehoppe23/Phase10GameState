@@ -7,6 +7,7 @@
 package com.example.phase10gamestate;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Phase { //Wild card handling will be added in beta release
 
@@ -36,6 +37,9 @@ public class Phase { //Wild card handling will be added in beta release
     Card[] play2Set2;
     Card[] play2Color;
 
+
+
+
     /** checks if the play can play a phase, first by seeing what phase
      * the player is on, then by referencing two different methods that checks
      * each card to make sure the play can hit
@@ -48,26 +52,57 @@ public class Phase { //Wild card handling will be added in beta release
         Card[] sorted = sortCards(phaseContent);
         switch (playerPhase) {
             case 1:
+                if(sorted.length != 6){
+                    return false;
+                }
                 return checkIfPhaseOne(sorted, playerNum);
             case 2:
+                if(sorted.length != 7){
+                    return false;
+                }
                 return checkIfPhaseTwo(sorted, playerNum);
             case 3:
+                if(sorted.length != 8){
+                    return false;
+                }
                 return checkIfPhaseThree(sorted, playerNum);
             case 4:
+                if(sorted.length != 7){
+                    return false;
+                }
                 return checkIfPhaseFour(sorted, playerNum);
             case 5:
+                if(sorted.length != 8){
+                    return false;
+                }
                 return checkIfPhaseFive(sorted, playerNum);
             case 6:
+                if(sorted.length != 9){
+                    return false;
+                }
                 return checkIfPhaseSix(sorted, playerNum);
             case 7:
+                if(sorted.length != 8){
+                    return false;
+                }
                 return checkIfPhaseSeven(sorted, playerNum);
             case 8: //Special Boy - 7 cards of 1 color
                 sorted = sortCardsByColor(phaseContent);
                 if(isColorGroup(sorted, 7,playerNum, false) != null) return true;
+                if(sorted.length != 7){
+                    return false;
+                }
+                if(isColorGroup(sorted, 7,playerNum) != null) return true;
                 else return false;
             case 9:
+                if(sorted.length != 7){
+                    return false;
+                }
                 return checkIfPhaseNine(sorted, playerNum);
             case 10:
+                if(sorted.length != 8){
+                    return false;
+                }
                 return checkIfPhaseTen(sorted, playerNum);
             default:
                 return false;
@@ -290,7 +325,7 @@ public class Phase { //Wild card handling will be added in beta release
     public boolean checkIfPhaseNine(Card[] phaseContent, int playerNum){
 
         if(isSet(phaseContent,5, playerNum,1, false) != null) {
-            Card[] temp = isSet(phaseContent,3, playerNum,1, false); //Check for set 1
+            Card[] temp = isSet(phaseContent,5, playerNum,1, false); //Check for set 1
 
             if(isSet(temp,2,playerNum,2, false) != null){ //Check for set 2
 
@@ -332,7 +367,7 @@ public class Phase { //Wild card handling will be added in beta release
                     this.play2Run = null;
                     this.play2Color = null;
                 }
-                if(isSet(temp,2,playerNum,2, false) == temp) return true;//make sure no cards are left
+                if(isSet(temp,3,playerNum,2, false) == temp) return true;//make sure no cards are left
             }
         }
         return false;
@@ -369,8 +404,13 @@ public class Phase { //Wild card handling will be added in beta release
                     tempLoc++;
                 } else {
                     if(notInSet.length > 0) {
-                        notInSet[notInSetLoc] = checkForSet[j];
-                        notInSetLoc++;
+                       if(notInSetLoc < notInSet.length) {
+                           notInSet[notInSetLoc] = checkForSet[j];
+                             notInSetLoc++;
+                       }
+                       else{
+                           return null;
+                       }
                     }
                 }
             }
@@ -467,8 +507,13 @@ public class Phase { //Wild card handling will be added in beta release
                     tempLoc++;
                 } else {
                     if(notInRun.length > 0) {
-                        notInRun[notInRunLoc] = checkForRun[j];
-                        notInRunLoc++;
+                        if(notInRunLoc < notInRun.length) {
+                            notInRun[notInRunLoc] = checkForRun[j];
+                            notInRunLoc++;
+                        }
+                        else{
+                            return null;
+                        }
                     }
                 }
 
@@ -481,6 +526,13 @@ public class Phase { //Wild card handling will be added in beta release
                     return test1;}
 
                     if(playerNum == 1) {
+
+                        for(int b = 0; b < i; b++){
+                            while(notInRunLoc < notInRun.length) {
+                                notInRun[notInRunLoc] = checkForRun[b];
+                                notInRunLoc++;
+                            }
+                        }
                         this.play1Run = temp;
                         if(notInRunLoc == 0){
                             return checkForRun;
@@ -488,6 +540,12 @@ public class Phase { //Wild card handling will be added in beta release
                         return notInRun;
                     }
                     else if(playerNum == 2){
+                        for(int b = 0; b < i; b++){
+                            while(notInRunLoc < notInRun.length) {
+                                notInRun[notInRunLoc] = checkForRun[b];
+                                notInRunLoc++;
+                            }
+                        }
                         this.play2Run = temp;
                         if(notInRunLoc == 0){
                             return checkForRun;
@@ -531,9 +589,14 @@ public class Phase { //Wild card handling will be added in beta release
                     temp[tempLoc + 1] = checkForColor[j];
                     tempLoc++;
                 } else {
-                    if(notInColor.length>0) {
-                        notInColor[notInColorLoc] = checkForColor[j];
-                        notInColorLoc++;
+                    if(notInColor.length > 0) {
+                        if(notInColorLoc < notInColor.length) {
+                            notInColor[notInColorLoc] = checkForColor[j];
+                            notInColorLoc++;
+                        }
+                        else{
+                            return null;
+                        }
                     }
                 }
 
@@ -546,6 +609,12 @@ public class Phase { //Wild card handling will be added in beta release
                     return test1;}
 
                     if(playerNum == 1) {
+                        for(int b = 0; b < i; b++){
+                            while(notInColorLoc < notInColor.length) {
+                                notInColor[notInColorLoc] = checkForColor[b];
+                                notInColorLoc++;
+                            }
+                        }
                         this.play1Color = temp;
                         if(notInColorLoc == 0){
                             return checkForColor;
@@ -553,6 +622,12 @@ public class Phase { //Wild card handling will be added in beta release
                         return notInColor;
                     }
                     else if(playerNum == 2){
+                        for(int b = 0; b < i; b++){
+                            while(notInColorLoc < notInColor.length) {
+                                notInColor[notInColorLoc] = checkForColor[b];
+                                notInColorLoc++;
+                            }
+                        }
                         this.play2Color = temp;
                         if(notInColorLoc == 0){
                             return checkForColor;
@@ -622,6 +697,7 @@ public class Phase { //Wild card handling will be added in beta release
         }
         return arr;
     }
+
 
 
     /**
